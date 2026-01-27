@@ -11,7 +11,13 @@ export const CartProvider = ({ children }) => {
     useEffect(() => {
         const storedCart = localStorage.getItem('suka-cart');
         if (storedCart) {
-            setCart(JSON.parse(storedCart));
+            try {
+                const parsed = JSON.parse(storedCart);
+                setCart(Array.isArray(parsed) ? parsed : []);
+            } catch (error) {
+                console.error("Failed to parse cart:", error);
+                setCart([]);
+            }
         }
     }, []);
 
@@ -47,8 +53,8 @@ export const CartProvider = ({ children }) => {
 
     const clearCart = () => setCart([]);
 
-    const cartTotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-    const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+    const cartTotal = Array.isArray(cart) ? cart.reduce((acc, item) => acc + ((Number(item.price) || 0) * (Number(item.quantity) || 1)), 0) : 0;
+    const cartCount = Array.isArray(cart) ? cart.reduce((acc, item) => acc + (Number(item.quantity) || 0), 0) : 0;
 
     return (
         <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart, cartTotal, cartCount }}>

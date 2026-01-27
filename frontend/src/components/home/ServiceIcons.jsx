@@ -3,7 +3,7 @@ import { Truck, RotateCcw, Headphones, CreditCard } from 'lucide-react';
 
 const ServiceIcons = () => {
     const services = [
-        { icon: <Truck size={32} />, title: "Worldwide Shipping", subtitle: "On order over $150" },
+        { icon: <Truck size={32} />, title: "Worldwide Shipping", subtitle: "On orders over RM150" },
         { icon: <RotateCcw size={32} />, title: "Returns", subtitle: "Within 30 days for an exchange" },
         { icon: <Headphones size={32} />, title: "Online Support", subtitle: "24/7 online support center" },
         { icon: <CreditCard size={32} />, title: "Secure Payment", subtitle: "Pay with multiple credit cards" }

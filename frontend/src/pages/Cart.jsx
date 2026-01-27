@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Trash2, MessageCircle, ArrowRight } from 'lucide-react';
+import { Trash2, MessageCircle, ArrowRight, ShoppingCart } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
@@ -20,7 +20,7 @@ const Cart = () => {
         window.open(`https://wa.me/60123456789?text=${encodeURIComponent(message)}`, '_blank');
     };
 
-    if (cart.length === 0) {
+    if (!cart || cart.length === 0) {
         return (
             <div className="container mx-auto px-4 py-20 text-center">
                 <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-400">

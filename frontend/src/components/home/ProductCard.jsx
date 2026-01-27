@@ -2,13 +2,36 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ShoppingCart, Heart, Eye } from 'lucide-react';
 import { Button } from '../ui/button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useCart } from '../../context/CartContext';
 
 const ProductCard = ({ product }) => {
+    const { addToCart } = useCart();
+    const navigate = useNavigate();
+
+    const handleCardClick = () => {
+        navigate(`/products/${product._id}`);
+    };
+
+    const handleAddToCart = (e) => {
+        e.stopPropagation();
+        addToCart(product);
+        // Optional: Add toast notification here
+    };
+
+    const handleBuyNow = (e) => {
+        e.stopPropagation();
+        addToCart(product);
+        navigate('/cart');
+    };
+
     return (
-        <div className="group relative bg-white/50 backdrop-blur-sm border border-white/40 rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300">
-            {/* Image & Actions */}
-            <div className="relative aspect-[4/5] overflow-hidden bg-gray-100">
+        <div
+            onClick={handleCardClick}
+            className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 cursor-pointer flex flex-col h-full"
+        >
+            {/* Image Container */}
+            <div className="relative aspect-square overflow-hidden bg-gray-50">
                 <img
                     src={product.image}
                     alt={product.title}
@@ -17,36 +40,47 @@ const ProductCard = ({ product }) => {
 
                 {/* Sale Tag */}
                 {product.discount > 0 && (
-                    <span className="absolute top-3 left-3 bg-primary-magenta text-white text-xs font-bold px-2 py-1 rounded-md shadow-lg">
+                    <span className="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider shadow-sm">
                         -{product.discount}%
                     </span>
                 )}
-
-                {/* Hover Actions */}
-                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2">
-                    <Button size="icon" className="bg-white text-gray-800 hover:bg-primary-blue hover:text-white rounded-full translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-75">
-                        <ShoppingCart size={18} />
-                    </Button>
-                    <Button size="icon" className="bg-white text-gray-800 hover:bg-primary-magenta hover:text-white rounded-full translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-100">
-                        <Heart size={18} />
-                    </Button>
-                    <Link to={`/products/${product._id}`}>
-                        <Button size="icon" className="bg-white text-gray-800 hover:bg-accent hover:text-white rounded-full translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-150">
-                            <Eye size={18} />
-                        </Button>
-                    </Link>
-                </div>
             </div>
 
-            {/* Info */}
-            <div className="p-4 text-center">
-                <p className="text-xs text-gray-500 mb-1">{product.category}</p>
-                <h3 className="font-semibold text-gray-800 mb-2 truncate group-hover:text-primary-blue transition-colors">{product.title}</h3>
-                <div className="flex items-center justify-center gap-2">
-                    <span className="font-bold text-primary-blue">RM{product.price.toFixed(2)}</span>
-                    {product.oldPrice && (
-                        <span className="text-xs text-gray-400 line-through">RM{product.oldPrice.toFixed(2)}</span>
-                    )}
+            {/* Content */}
+            <div className="p-4 flex-1 flex flex-col">
+                <div className="mb-2">
+                    <p className="text-xs text-gray-400 mb-1 font-medium uppercase tracking-wide">{product.category}</p>
+                    <h3 className="font-bold text-gray-800 leading-tight line-clamp-1 mb-1 group-hover:text-primary-blue transition-colors">
+                        {product.title}
+                    </h3>
+                    <p className="text-xs text-gray-500 line-clamp-2 min-h-[2.5em]">
+                        {product.description || "High quality printing solution."}
+                    </p>
+                </div>
+
+                <div className="mt-auto pt-4 space-y-3">
+                    <div className="flex items-baseline gap-2">
+                        <span className="text-lg font-bold text-primary-blue">RM{product.price.toFixed(2)}</span>
+                        {product.oldPrice && (
+                            <span className="text-sm text-gray-400 line-through">RM{product.oldPrice.toFixed(2)}</span>
+                        )}
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2">
+                        <Button
+                            onClick={handleAddToCart}
+                            variant="outline"
+                            className="w-full h-9 text-xs border-primary-blue text-primary-blue hover:bg-primary-blue hover:text-white transition-colors"
+                        >
+                            Add to Cart
+                        </Button>
+                        <Button
+                            onClick={handleBuyNow}
+                            className="w-full h-9 text-xs bg-primary-blue hover:bg-primary-blue/90 text-white shadow-md hover:shadow-lg transition-all"
+                        >
+                            Buy Now
+                        </Button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,15 +1,67 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Search, ShoppingCart, User, Heart, Menu, X, Phone, MapPin, Facebook, Instagram, Twitter } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { cn } from '../../lib/utils';
 import { useCart } from '../../context/CartContext';
 import logo from '../../assets/suka.png';
+import { products } from '../../data/products';
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { cartCount } = useCart();
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const [showResults, setShowResults] = useState(false);
+    const searchRef = useRef(null);
+    const navigate = useNavigate();
+
+    // Close search results when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (searchRef.current && !searchRef.current.contains(event.target)) {
+                setShowResults(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    const handleSearch = (e) => {
+        const query = e.target.value;
+        setSearchQuery(query);
+
+        if (query.trim() === '') {
+            setSearchResults([]);
+            setShowResults(false);
+            return;
+        }
+
+        const filtered = products.filter(product => {
+            const lowerQuery = query.toLowerCase();
+            const matchTitle = product.title.toLowerCase().includes(lowerQuery);
+            const matchCategory = product.category.toLowerCase().includes(lowerQuery);
+            const matchKeywords = product.keywords && product.keywords.some(k => k.toLowerCase().includes(lowerQuery));
+            return matchTitle || matchCategory || matchKeywords;
+        });
+
+        setSearchResults(filtered);
+        setShowResults(true);
+    };
+
+    const handleProductClick = (id) => {
+        navigate(`/products/${id}`);
+        setSearchQuery('');
+        setShowResults(false);
+    };
+
+    const handleSearchSubmit = () => {
+        if (searchQuery.trim()) {
+            navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+            setShowResults(false);
+        }
+    };
 
     return (
         <header className="fixed top-0 left-0 w-full z-50 transition-all duration-300">
@@ -35,15 +87,56 @@ const Navbar = () => {
                     </Link>
 
                     {/* Search Bar - Hidden on mobile initially, visible on desktop */}
-                    <div className="hidden md:flex flex-1 max-w-xl mx-8 relative">
-                        <Input
-                            type="text"
-                            placeholder="Search for business cards, banners..."
-                            className="w-full rounded-full pl-4 pr-10 border-primary-blue/20 bg-white/50 focus:bg-white transition-all"
-                        />
-                        <Button size="icon" variant="ghost" className="absolute right-1 top-1/2 -translate-y-1/2 hover:bg-transparent text-primary-blue">
-                            <Search size={18} />
-                        </Button>
+                    {/* Search Bar - Hidden on mobile initially, visible on desktop */}
+                    {/* Search Bar - Hidden on mobile initially, visible on desktop */}
+                    <div className="hidden md:flex flex-1 max-w-xl mx-8 relative" ref={searchRef}>
+                        <div className="relative w-full">
+                            <Input
+                                type="text"
+                                placeholder="Search for business cards, banners..."
+                                className="w-full rounded-full pl-4 pr-10 border-primary-blue/20 bg-white/50 focus:bg-white transition-all"
+                                value={searchQuery}
+                                onChange={handleSearch}
+                                onFocus={() => searchQuery && setShowResults(true)}
+                                onKeyDown={(e) => e.key === 'Enter' && handleSearchSubmit()}
+                            />
+                            <Button
+                                size="icon"
+                                variant="ghost"
+                                className="absolute right-1 top-1/2 -translate-y-1/2 hover:bg-transparent text-primary-blue"
+                                onClick={handleSearchSubmit}
+                            >
+                                <Search size={18} />
+                            </Button>
+                        </div>
+
+                        {/* Search Results Dropdown */}
+                        {showResults && (
+                            <div className="absolute top-full left-0 w-full mt-2 bg-white rounded-xl shadow-2xl border-2 border-gray-100 max-h-96 overflow-y-auto z-[100]">
+                                {searchResults.length > 0 ? (
+                                    <ul>
+                                        {searchResults.map(product => (
+                                            <li
+                                                key={product._id}
+                                                className="px-4 py-3 hover:bg-gray-50 cursor-pointer flex items-center gap-3 border-b border-gray-50 last:border-none"
+                                                onClick={() => handleProductClick(product._id)}
+                                            >
+                                                <img src={product.image} alt={product.title} className="w-10 h-10 object-cover rounded-md bg-gray-100" />
+                                                <div>
+                                                    <div className="text-sm font-semibold text-gray-800">{product.title}</div>
+                                                    <div className="text-xs text-gray-500">{product.category}</div>
+                                                </div>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <div className="p-4 text-center text-gray-500 text-sm">
+                                        No products found for "{searchQuery}". <br />
+                                        <span className="text-xs">Try keywords like "card", "banner", "flyer"</span>
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </div>
 
                     {/* Right Icons */}
@@ -73,7 +166,7 @@ const Navbar = () => {
                         </Button>
 
                         <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}\
                         </Button>
                     </div>
                 </div>
@@ -83,22 +176,13 @@ const Navbar = () => {
             <nav className="hidden md:block bg-white border-b border-gray-100 shadow-sm">
                 <div className="container mx-auto px-4 md:px-8">
                     <div className="flex items-center gap-8">
-                        {/* Categories Button */}
-                        <div className="relative group z-20">
-                            <button className="bg-primary-magenta text-white px-6 py-4 flex items-center gap-3 font-bold uppercase tracking-wide min-w-[260px]">
-                                <Menu size={20} />
-                                Shop By Categories
-                            </button>
-                            {/* Dropdown would go here, but avoiding complex mega menu code for now unless requested */}
-                        </div>
-
                         {/* Nav Links */}
                         <ul className="flex items-center gap-8 py-3 text-sm font-medium text-gray-700 flex-1">
-                            <li className="hover:text-primary-blue cursor-pointer font-semibold">Home</li>
-                            <li className="hover:text-primary-blue cursor-pointer">Products</li>
-                            <li className="hover:text-primary-blue cursor-pointer">Services</li>
-                            <li className="hover:text-primary-blue cursor-pointer">About Us</li>
-                            <li className="hover:text-primary-blue cursor-pointer">Contact</li>
+                            <li><Link to="/" className="hover:text-primary-blue cursor-pointer font-semibold">Home</Link></li>
+                            <li><Link to="/products" className="hover:text-primary-blue cursor-pointer">Products</Link></li>
+                            <li><Link to="/services" className="hover:text-primary-blue cursor-pointer">Services</Link></li>
+                            <li><Link to="/about" className="hover:text-primary-blue cursor-pointer">About Us</Link></li>
+                            <li><Link to="/contact" className="hover:text-primary-blue cursor-pointer">Contact</Link></li>
                         </ul>
 
                         <div className="text-sm font-bold text-primary-magenta">

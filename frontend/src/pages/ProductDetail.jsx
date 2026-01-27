@@ -1,21 +1,27 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Minus, Plus, ShoppingCart, MessageCircle, Star } from 'lucide-react';
+import { Minus, Plus, ShoppingCart, MessageCircle, Star, ArrowLeft } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { useCart } from '../context/CartContext';
-
-// Mock Data (Ideally fetched by ID)
-const PRODUCT_DB = {
-    '1': { _id: '1', title: 'Matte Business Card', description: 'Premium matte finish business cards on 310gsm art card. Ideal for minimalist designs.', price: 45.00, images: ['https://images.unsplash.com/photo-1617726487103-6058d927dcc3?auto=format&fit=crop&q=80&w=800'] },
-    '2': { _id: '2', title: 'Vinyl Banner 8x4', description: 'High durability vinyl banner suitable for outdoor usage. Grommets included.', price: 120.00, images: ['https://images.unsplash.com/photo-1630328905030-802525cdad66?auto=format&fit=crop&q=80&w=800'] },
-};
+import { products } from '../data/products';
 
 const ProductDetail = () => {
     const { id } = useParams();
-    const product = PRODUCT_DB[id] || PRODUCT_DB['1']; // Fallback for demo
+    const product = products.find(p => p._id === id);
     const [quantity, setQuantity] = useState(1);
     const { addToCart } = useCart();
+
+    if (!product) {
+        return (
+            <div className="container mx-auto px-4 py-20 text-center">
+                <h2 className="text-2xl font-bold mb-4">Product Not Found</h2>
+                <Link to="/products">
+                    <Button>Back to Products</Button>
+                </Link>
+            </div>
+        );
+    }
 
     const handleQuantity = (type) => {
         if (type === 'inc') setQuantity(q => q + 1);
@@ -36,7 +42,7 @@ const ProductDetail = () => {
                     animate={{ opacity: 1, x: 0 }}
                     className="rounded-2xl overflow-hidden shadow-2xl border border-white/20"
                 >
-                    <img src={product.images[0]} alt={product.title} className="w-full h-auto object-cover" />
+                    <img src={product.image} alt={product.title} className="w-full h-auto object-cover" />
                 </motion.div>
 
                 {/* Details */}
@@ -59,7 +65,7 @@ const ProductDetail = () => {
                     </div>
 
                     <p className="text-gray-600 leading-relaxed">
-                        {product.description}
+                        {product.description || `Premium quality ${product.title.toLowerCase()} tailored to your specific needs. Order now for fast delivery and professional finish.`}
                     </p>
 
                     <div className="flex items-center gap-6">

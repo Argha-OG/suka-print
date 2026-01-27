@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../ui/button';
-import { ArrowRight, CreditCard, BookOpen, ScrollText, Sticker, Tag, Flag, Pin, AlertCircle } from 'lucide-react';
+import { ArrowRight, CreditCard, BookOpen, ScrollText, Sticker, Tag, Flag, Pin, AlertCircle, Menu } from 'lucide-react';
 
 const slides = [
     {
@@ -57,6 +57,10 @@ const HeroSlider = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-12">
             {/* Sidebar Categories (1 Col) */}
             <div className="hidden lg:block bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+                <div className="bg-primary-magenta text-white px-6 py-4 flex items-center gap-3 font-bold uppercase tracking-wide">
+                    <Menu size={20} />
+                    Shop By Categories
+                </div>
                 <ul>
                     {categories.map((cat, idx) => (
                         <li key={idx} className="border-b border-gray-100 last:border-none">
@@ -131,7 +135,7 @@ const HeroSlider = () => {
                             >
                                 <div className="text-center">
                                     <span className="block text-5xl font-bold mb-2">Save</span>
-                                    <span className="block text-4xl w-24 h-24 bg-white text-primary-magenta rounded-full flex items-center justify-center font-extrabold mx-auto shadow-xl">$5.00</span>
+                                    <span className="block text-4xl w-24 h-24 bg-white text-primary-magenta rounded-full flex items-center justify-center font-extrabold mx-auto shadow-xl">RM5.00</span>
                                 </div>
                             </motion.div>
                         </div>

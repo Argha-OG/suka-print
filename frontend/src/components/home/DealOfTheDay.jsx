@@ -2,13 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../ui/button';
 
-const deals = [
-    // ... deals array remains ...
-    { id: 1, title: 'Brochure Offset', price: '$99.00', image: 'https://images.unsplash.com/photo-1629812456605-4a044aa38fbc?auto=format&fit=crop&q=80&w=300' },
-    { id: 2, title: 'Catalogues Saddle', price: '$75.00', image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=300' },
-    { id: 3, title: 'Easels wt.Safe', price: '$35.00', image: 'https://images.unsplash.com/photo-1596462502278-27bfdd403cc2?auto=format&fit=crop&q=80&w=300' },
-    { id: 4, title: 'Invitation cards env', price: '$120.00', image: 'https://images.unsplash.com/photo-1606166325683-e6deb697d301?auto=format&fit=crop&q=80&w=300' }
-];
+import { products } from '../../data/products';
+
+// Use first 4 products as deals
+const deals = products.slice(0, 4);
 
 const DealOfTheDay = () => {
     // ... timer logic ...
@@ -49,13 +46,13 @@ const DealOfTheDay = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {deals.map(deal => (
-                    <Link to={`/products/${deal.id}`} key={deal.id} className="bg-white p-4 rounded-xl shadow-sm hover:shadow-lg transition-all group block">
+                    <Link to={`/products/${deal._id}`} key={deal._id} className="bg-white p-4 rounded-xl shadow-sm hover:shadow-lg transition-all group block">
                         <div className="relative mb-4 overflow-hidden rounded-lg bg-gray-50 h-48 flex items-center justify-center">
                             <div className="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded">HOT</div>
                             <img src={deal.image} alt={deal.title} className="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-500" />
                         </div>
-                        <h3 className="font-semibold text-gray-900 mb-1">{deal.title}</h3>
-                        <div className="text-red-500 font-bold">{deal.price} <span className="text-gray-400 text-xs font-normal line-through ml-2">$150.00</span></div>
+                        <h3 className="font-semibold text-gray-900 mb-1 truncate">{deal.title}</h3>
+                        <div className="text-red-500 font-bold">RM{deal.price.toFixed(2)} <span className="text-gray-400 text-xs font-normal line-through ml-2">RM{(deal.price * 1.2).toFixed(2)}</span></div>
                     </Link>
                 ))}
             </div>
