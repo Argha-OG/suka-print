@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 font-sans;
+    /* Optional: Global background pattern or gradient */
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-glass-white/10 backdrop-blur-md border border-glass-border shadow-lg;
+  }
+  .glass-card {
+    @apply bg-white/60 backdrop-blur-lg border border-white/20 shadow-xl rounded-xl;
+  }
+  .glass-dark {
+    @apply bg-black/40 backdrop-blur-md border border-white/10 text-white shadow-xl;
+  }
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-blue to-primary-magenta;
+  }
+}
