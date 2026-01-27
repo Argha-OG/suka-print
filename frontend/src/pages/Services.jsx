@@ -2,6 +2,7 @@ import React from 'react';
 import { Printer, FileText, Image, Layers, Package, PenTool } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Link } from 'react-router-dom';
+import SEO from '../components/utils/SEO';
 
 const Services = () => {
     const serviceList = [
@@ -39,6 +40,10 @@ const Services = () => {
 
     return (
         <div className="container mx-auto px-4 md:px-8 py-12">
+            <SEO
+                title="Our Services"
+                description="Explore our comprehensive range of printing solutions including digital printing, large format, packaging, and design services."
+            />
             <div className="text-center max-w-2xl mx-auto mb-16">
                 <h1 className="text-4xl font-bold mb-4">Our Services</h1>
                 <p className="text-gray-600">We offer a comprehensive range of printing solutions tailored to your business needs.</p>

@@ -5,6 +5,9 @@ import { Minus, Plus, ShoppingCart, MessageCircle, Star, ArrowLeft } from 'lucid
 import { Button } from '../components/ui/button';
 import { useCart } from '../context/CartContext';
 import { products } from '../data/products';
+import ListingCard from '../components/products/ListingCard';
+import ServiceIcons from '../components/home/ServiceIcons';
+import SEO from '../components/utils/SEO';
 
 const ProductDetail = () => {
     const { id } = useParams();
@@ -35,6 +38,11 @@ const ProductDetail = () => {
 
     return (
         <div className="container mx-auto px-4 md:px-8 py-12">
+            <SEO
+                title={product.title}
+                description={product.description || `Buy ${product.title} at the best price.`}
+                image={product.image}
+            />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
                 {/* Image Gallery */}
                 <motion.div
@@ -60,8 +68,41 @@ const ProductDetail = () => {
                         </div>
                     </div>
 
-                    <div className="text-3xl font-bold text-primary-magenta">
-                        RM{product.price.toFixed(2)}
+                    {/* Price & Bulk Discount */}
+                    <div className="space-y-2">
+                        <div className="text-3xl font-bold text-primary-magenta flex items-center gap-3">
+                            RM{(product.price * (1 - (quantity >= 100 ? 0.15 : quantity >= 50 ? 0.10 : quantity >= 20 ? 0.05 : 0))).toFixed(2)}
+                            {quantity >= 20 && (
+                                <span className="text-sm bg-green-100 text-green-700 px-2 py-1 rounded-full font-bold">
+                                    {quantity >= 100 ? '15%' : quantity >= 50 ? '10%' : '5%'} OFF
+                                </span>
+                            )}
+                            <span className="text-sm text-gray-400 font-normal">/ unit</span>
+                        </div>
+                        {quantity >= 20 && (
+                            <p className="text-sm text-gray-500 font-medium">
+                                Total: <span className="text-gray-900 font-bold">RM{(product.price * quantity * (1 - (quantity >= 100 ? 0.15 : quantity >= 50 ? 0.10 : quantity >= 20 ? 0.05 : 0))).toFixed(2)}</span>
+                            </p>
+                        )}
+                    </div>
+
+                    {/* Bulk Tiers Info */}
+                    <div className="bg-blue-50/50 p-4 rounded-xl border border-blue-100">
+                        <h5 className="text-sm font-bold text-blue-900 mb-2">Bulk Discounts Available:</h5>
+                        <div className="grid grid-cols-3 gap-2 text-center text-xs">
+                            <div className={`p-2 rounded-lg ${quantity >= 20 && quantity < 50 ? 'bg-blue-200 ring-1 ring-blue-400 font-bold' : 'bg-white'}`}>
+                                <div className="font-bold text-blue-800">20+ Units</div>
+                                <div className="text-green-600">5% OFF</div>
+                            </div>
+                            <div className={`p-2 rounded-lg ${quantity >= 50 && quantity < 100 ? 'bg-blue-200 ring-1 ring-blue-400 font-bold' : 'bg-white'}`}>
+                                <div className="font-bold text-blue-800">50+ Units</div>
+                                <div className="text-green-600">10% OFF</div>
+                            </div>
+                            <div className={`p-2 rounded-lg ${quantity >= 100 ? 'bg-blue-200 ring-1 ring-blue-400 font-bold' : 'bg-white'}`}>
+                                <div className="font-bold text-blue-800">100+ Units</div>
+                                <div className="text-green-600">15% OFF</div>
+                            </div>
+                        </div>
                     </div>
 
                     <p className="text-gray-600 leading-relaxed">
@@ -69,10 +110,23 @@ const ProductDetail = () => {
                     </p>
 
                     <div className="flex items-center gap-6">
-                        <div className="flex items-center bg-white border border-gray-300 rounded-lg">
-                            <button onClick={() => handleQuantity('dec')} className="p-3 hover:bg-gray-100"><Minus size={16} /></button>
-                            <span className="w-12 text-center font-bold">{quantity}</span>
-                            <button onClick={() => handleQuantity('inc')} className="p-3 hover:bg-gray-100"><Plus size={16} /></button>
+                        <div className="flex items-center bg-white border border-gray-300 rounded-lg overflow-hidden">
+                            <button onClick={() => handleQuantity('dec')} className="p-3 hover:bg-gray-100 border-r border-gray-200 transition-colors"><Minus size={16} /></button>
+                            <input
+                                type="number"
+                                value={quantity}
+                                onChange={(e) => {
+                                    const val = parseInt(e.target.value);
+                                    if (!isNaN(val) && val > 0) setQuantity(val);
+                                    else if (e.target.value === '') setQuantity('');
+                                }}
+                                onBlur={(e) => {
+                                    if (e.target.value === '' || parseInt(e.target.value) < 1) setQuantity(1);
+                                }}
+                                className="w-20 text-center font-bold border-none focus:ring-0 p-2 text-lg outline-none"
+                                min="1"
+                            />
+                            <button onClick={() => handleQuantity('inc')} className="p-3 hover:bg-gray-100 border-l border-gray-200 transition-colors"><Plus size={16} /></button>
                         </div>
                     </div>
 
@@ -107,6 +161,23 @@ const ProductDetail = () => {
                         </div>
                     </div>
                 </motion.div>
+            </div>
+            {/* Related Products Section */}
+            <div className="mt-24">
+                <h3 className="text-2xl font-bold mb-8 text-gray-800">Related Products</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    {products
+                        .filter(p => p.category === product.category && p._id !== product._id)
+                        .slice(0, 4)
+                        .map(related => (
+                            <ListingCard key={related._id} product={related} />
+                        ))}
+                </div>
+            </div>
+
+            {/* Service Highlights */}
+            <div className="mt-24 border-t border-gray-100 pt-12">
+                <ServiceIcons />
             </div>
         </div>
     );

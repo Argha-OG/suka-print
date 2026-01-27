@@ -2,10 +2,15 @@ import React from 'react';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
+import SEO from '../components/utils/SEO';
 
 const Contact = () => {
     return (
         <div className="container mx-auto px-4 md:px-8 py-12">
+            <SEO
+                title="Contact Us"
+                description="Get in touch with SukaPrint for custom quotes, inquiries, or support. Visit us in Kuala Lumpur or contact via phone/email."
+            />
             <h1 className="text-4xl font-bold text-center mb-16">Get in Touch</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">

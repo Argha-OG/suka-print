@@ -7,10 +7,15 @@ import PopularCategories from '../components/home/PopularCategories';
 import HomeProductLists from '../components/home/HomeProductLists';
 import AppBanner from '../components/home/AppBanner';
 import Newsletter from '../components/home/Newsletter';
+import SEO from '../components/utils/SEO';
 
 const Home = () => {
     return (
-        <div className="container mx-auto px-4 md:px-8 py-8">
+        <div className="space-y-12 pb-12">
+            <SEO
+                title="Home"
+                description="Your one-stop shop for premium printing services in Malaysia. Business cards, banners, stickers and more."
+            />
             <HeroSlider />
             <ServiceIcons />
             <PromoBanners />

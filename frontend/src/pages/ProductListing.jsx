@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Filter, ChevronDown, SearchX } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
-import ProductCard from '../components/home/ProductCard';
+import ListingCard from '../components/products/ListingCard';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
+import SEO from '../components/utils/SEO';
 
 import { products } from '../data/products';
 
@@ -64,6 +65,10 @@ const ProductListing = () => {
 
     return (
         <div className="container mx-auto px-4 md:px-8 py-8">
+            <SEO
+                title={hasSearchQuery ? `Search: ${searchTerm}` : "Shop Products"}
+                description="Browse our extensive collection of printing products. Custom designs, bulk orders, and fast delivery."
+            />
             {/* Header & Filter */}
             <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
                 <h1 className="text-3xl font-bold text-gray-800">
@@ -100,7 +105,7 @@ const ProductListing = () => {
             {filteredProducts.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                     {filteredProducts.map(product => (
-                        <ProductCard key={product._id} product={product} />
+                        <ListingCard key={product._id} product={product} />
                     ))}
                 </div>
             ) : (
@@ -120,7 +125,7 @@ const ProductListing = () => {
                             </h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                                 {suggestions.map(product => (
-                                    <ProductCard key={product._id} product={product} />
+                                    <ListingCard key={product._id} product={product} />
                                 ))}
                             </div>
                         </div>

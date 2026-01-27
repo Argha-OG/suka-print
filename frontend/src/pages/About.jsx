@@ -1,9 +1,14 @@
 import React from 'react';
 import { CheckCircle } from 'lucide-react';
+import SEO from '../components/utils/SEO';
 
 const About = () => {
     return (
         <div className="container mx-auto px-4 md:px-8 py-12">
+            <SEO
+                title="About Us"
+                description="Learn about SukaPrint's journey from a local print shop to a comprehensive design and print house in Malaysia."
+            />
             {/* Hero */}
             <div className="flex flex-col md:flex-row items-center gap-12 mb-20">
                 <div className="flex-1">

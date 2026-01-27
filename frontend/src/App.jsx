@@ -26,38 +26,45 @@ const PageLoader = () => (
   </div>
 );
 
+import ScrollToTop from './components/utils/ScrollToTop';
+
+import { HelmetProvider } from 'react-helmet-async';
+
 function App() {
   return (
-    <CartProvider>
-      <Router>
-        <Suspense fallback={<PageLoader />}>
-          <Routes>
-            {/* Public Routes */}
-            <Route element={<Layout />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/products" element={<ProductListing />} />
-              <Route path="/products/:id" element={<ProductDetail />} />
-              <Route path="/category/:category" element={<ProductListing />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/cart" element={<Cart />} />
-            </Route>
+    <HelmetProvider>
+      <CartProvider>
+        <Router>
+          <ScrollToTop />
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              {/* Public Routes */}
+              <Route element={<Layout />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/products" element={<ProductListing />} />
+                <Route path="/products/:id" element={<ProductDetail />} />
+                <Route path="/category/:category" element={<ProductListing />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/cart" element={<Cart />} />
+              </Route>
 
-            {/* Admin Routes */}
-            <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
-            <Route path="/admin/login" element={<Login />} />
-            <Route path="/admin" element={<AdminLayout />}>
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="products" element={<AdminProducts />} />
-              <Route path="products/add" element={<ProductForm />} />
-              <Route path="products/:id/edit" element={<ProductForm />} />
-              <Route path="marketing" element={<MarketingManager />} />
-            </Route>
-          </Routes>
-        </Suspense>
-      </Router>
-    </CartProvider>
+              {/* Admin Routes */}
+              <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
+              <Route path="/admin/login" element={<Login />} />
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="products" element={<AdminProducts />} />
+                <Route path="products/add" element={<ProductForm />} />
+                <Route path="products/:id/edit" element={<ProductForm />} />
+                <Route path="marketing" element={<MarketingManager />} />
+              </Route>
+            </Routes>
+          </Suspense>
+        </Router>
+      </CartProvider>
+    </HelmetProvider>
   );
 }
 
