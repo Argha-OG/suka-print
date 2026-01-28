@@ -8,6 +8,7 @@ import HomeProductLists from '../components/home/HomeProductLists';
 import AppBanner from '../components/home/AppBanner';
 import Newsletter from '../components/home/Newsletter';
 import Testimonials from '../components/home/Testimonials';
+import CustomPrintsSection from '../components/home/CustomPrintsSection';
 import SEO from '../components/utils/SEO';
 
 const Home = () => {
@@ -27,6 +28,7 @@ const Home = () => {
 
             <HomeProductLists />
             <Testimonials />
+            <CustomPrintsSection />
             <AppBanner />
             <Newsletter />
         </div>
