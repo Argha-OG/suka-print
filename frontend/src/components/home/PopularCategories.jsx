@@ -2,12 +2,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const categories = [
-    { name: 'Business Cards', image: 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=400' },
-    { name: 'Flyers & Leaflets', image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=400' },
-    { name: 'Stickers & Labels', image: 'https://images.unsplash.com/photo-1626084478347-160c8cbfa2aa?auto=format&fit=crop&q=80&w=400' },
-    { name: 'Banners', image: 'https://images.unsplash.com/photo-1563986768494-4dee46a38531?auto=format&fit=crop&q=80&w=400' },
-    { name: 'Booklets', image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=400' },
-    { name: 'Posters', image: 'https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&q=80&w=400' },
+    { name: 'Business Cards', image: 'https://i.pinimg.com/736x/d2/17/37/d21737ad3b3efafb0447396cd90e72b5.jpg?auto=format&fit=crop&q=80&w=400' },
+    { name: 'Flyers & Leaflets', image: 'https://i.pinimg.com/1200x/a9/18/72/a9187200aba807217c92d379d7d5bd14.jpg?auto=format&fit=crop&q=80&w=400' },
+    { name: 'Stickers & Labels', image: 'https://i.pinimg.com/1200x/9a/b0/c5/9ab0c5eb69dcde68d501687f2775df40.jpg?auto=format&fit=crop&q=80&w=400' },
+    { name: 'Banners', image: 'https://i.pinimg.com/1200x/ec/ad/dc/ecaddc22a5b10b944662fbb9cf9372d1.jpg?auto=format&fit=crop&q=80&w=400' },
+    { name: 'Booklets', image: 'https://i.pinimg.com/1200x/9c/49/80/9c4980dd6228bdfca44fc82791c78901.jpg?auto=format&fit=crop&q=80&w=400' },
+    { name: 'Posters', image: 'https://i.pinimg.com/736x/ce/af/d3/ceafd31acddcdce3322cd0c348c1c602.jpg?auto=format&fit=crop&q=80&w=400' },
 ];
 
 const PopularCategories = () => {

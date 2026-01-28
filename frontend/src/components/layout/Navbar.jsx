@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, ShoppingCart, User, Heart, Menu, X, Phone, MapPin, Facebook, Instagram, Twitter } from 'lucide-react';
+import { Search, ShoppingCart, User, Heart, Menu, X, Phone, MapPin, Facebook, Instagram, Twitter, ChevronDown } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { cn } from '../../lib/utils';
 import { useCart } from '../../context/CartContext';
 import logo from '../../assets/suka.png';
 import { products } from '../../data/products';
+import shirtCatalog from '../../assets/Shirt-catalogue.pdf';
+import secondCatalog from '../../assets/second-catalog.pdf';
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -79,11 +81,11 @@ const Navbar = () => {
             </div>
 
             {/* Main Header */}
-            <div className="glass-white/10 backdrop-blur-md border-b border-white/10">
-                <div className="container mx-auto px-4 md:px-8 py-3 flex items-center justify-between gap-4">
+            <div className="bg-white backdrop-blur-md border-b border-gray-100 shadow-sm">
+                <div className="container mx-auto px-4 md:px-8 py-0.5 flex items-center justify-between gap-4">
                     {/* Logo */}
                     <Link to="/" className="flex items-center">
-                        <img src={logo} alt="Suka Print" className="h-12 w-auto object-contain" />
+                        <img src={logo} alt="Suka Print" className="h-[68px] w-auto object-contain" />
                     </Link>
 
                     {/* Search Bar - Hidden on mobile initially, visible on desktop */}
@@ -143,7 +145,7 @@ const Navbar = () => {
                     <div className="flex items-center gap-2 md:gap-4">
                         <div className="hidden md:flex flex-col items-end text-xs text-gray-600 mr-2">
                             <span className="font-semibold text-primary-blue flex items-center gap-1"><Phone size={12} /> Support</span>
-                            <span>+60 12-345 6789</span>
+                            <span>+60 11-1414 1509</span>
                         </div>
 
                         <Button variant="ghost" size="icon" className="relative">
@@ -180,6 +182,15 @@ const Navbar = () => {
                         <ul className="flex items-center gap-8 py-3 text-sm font-medium text-gray-700 flex-1">
                             <li><Link to="/" className="hover:text-primary-blue cursor-pointer font-semibold">Home</Link></li>
                             <li><Link to="/products" className="hover:text-primary-blue cursor-pointer">Products</Link></li>
+                            <li className="relative group">
+                                <button className="flex items-center gap-1 hover:text-primary-blue cursor-pointer bg-transparent border-none p-0 font-medium text-gray-700">
+                                    Catalogs <ChevronDown size={14} />
+                                </button>
+                                <div className="absolute top-full left-0 w-48 bg-white shadow-xl rounded-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border border-gray-100 transform translate-y-2 group-hover:translate-y-0">
+                                    <a href={shirtCatalog} target="_blank" rel="noopener noreferrer" className="block px-4 py-3 hover:bg-gray-50 text-gray-700 hover:text-primary-blue text-sm">Shirt Catalogue</a>
+                                    <a href={secondCatalog} target="_blank" rel="noopener noreferrer" className="block px-4 py-3 hover:bg-gray-50 text-gray-700 hover:text-primary-blue text-sm">Gift Catalogue</a>
+                                </div>
+                            </li>
                             <li><Link to="/services" className="hover:text-primary-blue cursor-pointer">Services</Link></li>
                             <li><Link to="/about" className="hover:text-primary-blue cursor-pointer">About Us</Link></li>
                             <li><Link to="/contact" className="hover:text-primary-blue cursor-pointer">Contact</Link></li>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../ui/button';
-import { ArrowRight, CreditCard, BookOpen, ScrollText, Sticker, Tag, Flag, Pin, AlertCircle, Menu } from 'lucide-react';
+import { ArrowRight, Menu, Plug, Notebook, Utensils, Coffee, Pen, PenTool } from 'lucide-react';
 
 const slides = [
     {
@@ -32,14 +32,12 @@ const slides = [
 ];
 
 const categories = [
-    { name: "Business Cards", icon: <CreditCard size={18} /> },
-    { name: "Booklets", icon: <BookOpen size={18} /> },
-    { name: "Flyers", icon: <ScrollText size={18} /> },
-    { name: "Stickers", icon: <Sticker size={18} /> },
-    { name: "Labels", icon: <Tag size={18} /> },
-    { name: "Banners", icon: <Flag size={18} /> },
-    { name: "Posters", icon: <Pin size={18} /> },
-    { name: "Signs", icon: <AlertCircle size={18} /> }
+    { name: "Travel Adapter", icon: <Plug size={18} /> },
+    { name: "Notepad", icon: <Notebook size={18} /> },
+    { name: "Kitchenware", icon: <Utensils size={18} /> },
+    { name: "Vacuum Flask", icon: <Coffee size={18} /> },
+    { name: "Plastic pen", icon: <Pen size={18} /> },
+    { name: "Metal Pen", icon: <PenTool size={18} /> }
 ];
 
 const HeroSlider = () => {

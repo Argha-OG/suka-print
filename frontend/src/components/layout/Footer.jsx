@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -39,10 +40,10 @@ const Footer = () => {
                     <div>
                         <h3 className="text-lg font-semibold mb-6">Customer Service</h3>
                         <ul className="space-y-3 text-gray-400 text-sm">
-                            <li><a href="#" className="hover:text-primary-blue transition-colors">Help Center</a></li>
-                            <li><a href="#" className="hover:text-primary-blue transition-colors">Returns & Refunds</a></li>
-                            <li><a href="#" className="hover:text-primary-blue transition-colors">Shipping Info</a></li>
-                            <li><a href="#" className="hover:text-primary-blue transition-colors">Track Order</a></li>
+                            <li><Link to="/help-center" className="hover:text-primary-blue transition-colors">Help Center</Link></li>
+                            <li><Link to="/returns-refunds" className="hover:text-primary-blue transition-colors">Returns & Refunds</Link></li>
+                            <li><Link to="/shipping-info" className="hover:text-primary-blue transition-colors">Shipping Info</Link></li>
+                            <li><Link to="/track-order" className="hover:text-primary-blue transition-colors">Track Order</Link></li>
                         </ul>
                     </div>
 
@@ -50,10 +51,10 @@ const Footer = () => {
                     <div>
                         <h3 className="text-lg font-semibold mb-6">Company</h3>
                         <ul className="space-y-3 text-gray-400 text-sm">
-                            <li><a href="#" className="hover:text-primary-blue transition-colors">About Us</a></li>
-                            <li><a href="#" className="hover:text-primary-blue transition-colors">Our Blog</a></li>
-                            <li><a href="#" className="hover:text-primary-blue transition-colors">Careers</a></li>
-                            <li><a href="#" className="hover:text-primary-blue transition-colors">Contact Us</a></li>
+                            <li><Link to="/about" className="hover:text-primary-blue transition-colors">About Us</Link></li>
+                            <li><Link to="/blog" className="hover:text-primary-blue transition-colors">Our Blog</Link></li>
+                            <li><Link to="/careers" className="hover:text-primary-blue transition-colors">Careers</Link></li>
+                            <li><Link to="/contact" className="hover:text-primary-blue transition-colors">Contact Us</Link></li>
                         </ul>
                     </div>
 
@@ -67,7 +68,7 @@ const Footer = () => {
                         </div>
                         <div className="mt-6 space-y-2 text-gray-400 text-sm">
                             <div className="flex items-center gap-2">
-                                <Phone size={14} className="text-primary-blue" /> +60 12-345 6789
+                                <Phone size={14} className="text-primary-blue" /> +60 11-1414 1509
                             </div>
                             <div className="flex items-center gap-2">
                                 <Mail size={14} className="text-primary-blue" /> hello@sukaprint.com

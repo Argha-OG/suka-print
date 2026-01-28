@@ -3,22 +3,28 @@ import { Star } from 'lucide-react';
 
 const testimonials = [
     {
-        name: "Sarah Jenkins",
-        role: "Marketing Director",
-        content: "Suka Print delivered our exhibition banners in record time. The quality was absolutely stunning and vivid!",
-        avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d"
+        name: "Jason L.",
+        role: "Customer",
+        content: "Fast service and very affordable. I printed some custom t-shirts for my team and the quality was amazing. Will definitely come back for future orders.",
+        avatar: "https://i.pravatar.cc/150?u=jason"
     },
     {
-        name: "David Chong",
-        role: "Graphic Designer",
-        content: "As a designer, I'm picky about color accuracy. They nailed the Pantone matching perfectly. Highly recommended.",
-        avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d"
+        name: "Nurul A.",
+        role: "Event Organizer",
+        content: "Layanan sangat mesra dan hasil cetakan memang berkualiti tinggi! Saya tempah banner untuk event sekolah dan semuanya siap tepat pada masanya. Highly recommended!",
+        avatar: "https://i.pravatar.cc/150?u=nurul"
     },
     {
-        name: "Michelle Tan",
-        role: "Small Business Owner",
-        content: "The packaging boxes really elevated my product's unboxing experience. My customers love it!",
-        avatar: "https://i.pravatar.cc/150?u=a04258114e29026302d"
+        name: "Siti Mariam",
+        role: "Bride-to-be",
+        content: "Kedai printing terbaik yang saya pernah guna! Design cantik, harga berpatutan, dan staff pun sangat membantu. Tempah kad kahwin saya pun dari sini!",
+        avatar: "https://i.pravatar.cc/150?u=siti"
+    },
+    {
+        name: "Priya Subramaniam",
+        role: "Business Owner",
+        content: "Superb service! I needed last-minute printing for my business flyers and they delivered everything perfectly and on time. Thank you!",
+        avatar: "https://i.pravatar.cc/150?u=priya"
     }
 ];
 
@@ -32,7 +38,7 @@ const Testimonials = () => {
                 <div className="w-20 h-1 bg-primary-magenta mx-auto rounded-full"></div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
                 {testimonials.map((t, i) => (
                     <div key={i} className="bg-white/60 backdrop-blur-md p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow border border-white/40">
                         <div className="flex gap-1 text-yellow-400 mb-4">

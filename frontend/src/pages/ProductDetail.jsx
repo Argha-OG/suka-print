@@ -33,7 +33,7 @@ const ProductDetail = () => {
 
     const handleWhatsAppBuy = () => {
         const message = `Hello, I want to buy *${product.title}* x${quantity}.\nPrice: RM${(product.price * quantity).toFixed(2)}\nLink: ${window.location.href}`;
-        window.open(`https://wa.me/60123456789?text=${encodeURIComponent(message)}`, '_blank');
+        window.open(`https://wa.me/601114141509?text=${encodeURIComponent(message)}`, '_blank');
     };
 
     return (
@@ -48,9 +48,9 @@ const ProductDetail = () => {
                 <motion.div
                     initial={{ opacity: 0, x: -50 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="rounded-2xl overflow-hidden shadow-2xl border border-white/20"
+                    className="rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-white flex items-center justify-center p-4"
                 >
-                    <img src={product.image} alt={product.title} className="w-full h-auto object-cover" />
+                    <img src={product.image} alt={product.title} className="w-full max-h-[500px] object-contain" />
                 </motion.div>
 
                 {/* Details */}

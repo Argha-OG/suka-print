@@ -38,47 +38,235 @@ const seedData = async () => {
 
         // 2. Create Products
         const products = [
+            // Travel Adapter
             {
-                title: 'Premium Business Cards',
-                description: 'High-quality 310gsm art card with matte lamination. Perfect for making a lasting impression.',
-                price: 45.00,
-                category: 'Business Cards',
-                imagePath: 'https://images.unsplash.com/photo-1629812456605-4a044aa38fbc?q=80&w=600&auto=format&fit=crop',
-                isBestSeller: true,
+                title: 'TRAVEL ADAPTER TD 04',
+                category: 'Travel Adapter',
+                price: 35.00,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/06/TA-04-.png',
+                description: 'Specifications: Black, White, Red, Yellow, Pink, Sea Blue. Min Order: 50 PCS',
+                stock: 100
+            },
+            // Notepads
+            {
+                title: 'ECO NOTEPAD EC 03',
+                category: 'Notepad',
+                price: 15.00,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/notepad.png',
+                description: 'Eco Notepad w/ Pen (Black, Red, Royal Blue). Min Order: 50 PCS',
                 stock: 100
             },
             {
-                title: 'Vinyl Banner (8x4)',
-                description: 'Durable outdoor vinyl banner with eyelets. Weather-resistant and vibrant colors.',
-                price: 120.00,
-                category: 'Banners',
-                imagePath: 'https://images.unsplash.com/photo-1563986768494-4dee46a38531?q=80&w=600&auto=format&fit=crop',
-                isTopRated: true,
+                title: 'ECO NOTEPAD EC 04',
+                category: 'Notepad',
+                price: 15.00,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/notepad.png',
+                description: 'Eco Notepad w/ Pen (Red, Orange, Green). Min Order: 50 PCS',
+                stock: 100
+            },
+            {
+                title: 'NOTEPAD NB 19',
+                category: 'Notepad',
+                price: 12.00,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/notepad.png',
+                description: 'Eco Notepad w/ Pen (Red, Royal Blue, Green). Min Order: 50 PCS',
+                stock: 100
+            },
+            {
+                title: 'NOTEPAD NB 20',
+                category: 'Notepad',
+                price: 12.00,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/notepad.png',
+                description: 'Eco Notepad w/ Pen (Red, Royal Blue, Green). Min Order: 50 PCS',
+                stock: 100
+            },
+            // Kitchenware
+            {
+                title: 'KITCHENWARE AM 43',
+                category: 'Kitchenware',
+                price: 45.00,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/vacuum-flashk.png',
+                description: 'Stainless Steel 304 (Black, Rose Gold, Grey). Min Order: 1 PCS',
                 stock: 50
             },
             {
-                title: 'Custom Stickers (Die-cut)',
-                description: 'Waterproof die-cut stickers. Any shape, any size. Great for branding.',
-                price: 35.00,
-                category: 'Stickers',
-                imagePath: 'https://images.unsplash.com/photo-1616613386341-8692634e9dfc?q=80&w=600&auto=format&fit=crop',
+                title: 'KITCHENWARE CE 56',
+                category: 'Kitchenware',
+                price: 45.00,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/vacuum-flashk.png',
+                description: 'Stainless Steel 304 (Rose Gold). Min Order: 1 PCS',
+                stock: 50
+            },
+            // Vacuum Flasks
+            {
+                title: 'VACUUM FLASK VF 49',
+                category: 'Vacuum Flask',
+                price: 38.00,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/vacuum-flashk.png',
+                description: 'Stainless Steel 304 (Black, Rose Gold, Grey). Min Order: 1 PCS',
+                stock: 50
+            },
+            {
+                title: 'VACUUM FLASK VF 32',
+                category: 'Vacuum Flask',
+                price: 38.00,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/vacuum-flashk.png',
+                description: 'Stainless Steel 304 (Black, Rose Gold). Min Order: 1 PCS',
+                stock: 50
+            },
+            {
+                title: 'VACUUM FLASK VF 50',
+                category: 'Vacuum Flask',
+                price: 38.00,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/vacuum-flashk.png',
+                description: 'Stainless Steel 304 (Black, White, Red). Min Order: 1 PCS',
+                stock: 50
+            },
+            {
+                title: 'VACUUM FLASK VF 34',
+                category: 'Vacuum Flask',
+                price: 38.00,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/vacuum-flashk.png',
+                description: 'Stainless Steel 304 (Black, Beige). Min Order: 1 PCS',
+                stock: 50
+            },
+            {
+                title: 'VACUUM FLASK VF 36, 37',
+                category: 'Vacuum Flask',
+                price: 38.00,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/vacuum-flashk.png',
+                description: 'Stainless Steel 304 (Natural). Min Order: 1 PCS',
+                stock: 50
+            },
+            {
+                title: 'VACUUM FLASK VF 48',
+                category: 'Vacuum Flask',
+                price: 38.00,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/vacuum-flashk.png',
+                description: 'Stainless Steel 304 (Black, White, Turquoise). Min Order: 1 PCS',
+                stock: 50
+            },
+            {
+                title: 'VACUUM FLASK VF 40',
+                category: 'Vacuum Flask',
+                price: 38.00,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/vacuum-flashk.png',
+                description: 'Stainless Steel 304 (Black, White, Grey). Min Order: 1 PCS',
+                stock: 50
+            },
+            {
+                title: 'VACUUM FLASK VF 45',
+                category: 'Vacuum Flask',
+                price: 38.00,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/vacuum-flashk.png',
+                description: 'Stainless Steel 304 (Black, Beige, Grey). Min Order: 1 PCS',
+                stock: 50
+            },
+            {
+                title: 'VACUUM FLASK VF 46',
+                category: 'Vacuum Flask',
+                price: 38.00,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/vacuum-flashk.png',
+                description: 'Stainless Steel 304 (Black, Beige, Grey). Min Order: 1 PCS',
+                stock: 50
+            },
+            // Plastic Pens
+            {
+                title: 'PLASTIC PEN PP AM',
+                category: 'Plastic Pen',
+                price: 2.50,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/metal-pen.png',
+                description: 'Ball Pen. White, Black, Red, Royal Blue. Min Order: 10 PCS',
                 stock: 200
             },
             {
-                title: 'A5 Flyers (Glossy)',
-                description: '1000pcs A5 Flyers on 128gsm art paper. Full color printing.',
-                price: 150.00,
-                category: 'Flyers',
-                imagePath: 'https://plus.unsplash.com/premium_photo-1675802568688-662580556d19?q=80&w=600&auto=format&fit=crop',
-                stock: 500
+                title: 'PLASTIC PEN PP 72',
+                category: 'Plastic Pen',
+                price: 2.50,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/metal-pen.png',
+                description: 'Ball Pen. Red, Orange, Royal Blue. Min Order: 10 PCS',
+                stock: 200
             },
             {
-                title: 'Roll-up Bunting',
-                description: 'Portable roll-up bunting with aluminum stand. Includes carrying case.',
-                price: 85.00,
-                category: 'Banners',
-                imagePath: 'https://images.unsplash.com/photo-1558611848-73f7eb4001a1?q=80&w=600&auto=format&fit=crop',
-                stock: 30
+                title: 'PLASTIC PEN PP 97',
+                category: 'Plastic Pen',
+                price: 2.50,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/metal-pen.png',
+                description: 'Ball Pen. Black, Red, Royal Blue. Min Order: 10 PCS',
+                stock: 200
+            },
+            {
+                title: 'PLASTIC PEN PP AW',
+                category: 'Plastic Pen',
+                price: 3.50,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/metal-pen.png',
+                description: 'Wooden Ball Pen. Natural, Brown. Min Order: 10 PCS',
+                stock: 200
+            },
+            {
+                title: 'PLASTIC PEN PP 75',
+                category: 'Plastic Pen',
+                price: 3.00,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/metal-pen.png',
+                description: 'Gel Ink Pen. White, Black, Yellow. Min Order: 10 PCS',
+                stock: 200
+            },
+            {
+                title: 'PLASTIC PEN PP 61',
+                category: 'Plastic Pen',
+                price: 2.50,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/metal-pen.png',
+                description: 'Ball Pen. Red, Orange, Black. Min Order: 10 PCS',
+                stock: 200
+            },
+            // Metal Pens
+            {
+                title: 'METAL PEN MP 09',
+                category: 'Metal Pen',
+                price: 8.50,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/metal-pen.png',
+                description: 'Ball/Roller Pen. Black. Min Order: 10 PCS',
+                stock: 200
+            },
+            {
+                title: 'METAL PEN MP 29',
+                category: 'Metal Pen',
+                price: 8.50,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/metal-pen.png',
+                description: 'Ball Pen. White, Black, Grey. Min Order: 10 PCS',
+                stock: 200
+            },
+            {
+                title: 'METAL PEN MP 30',
+                category: 'Metal Pen',
+                price: 8.50,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/metal-pen.png',
+                description: 'Ball Pen. White, Black, Silver. Min Order: 10 PCS',
+                stock: 200
+            },
+            {
+                title: 'METAL PEN MP 32',
+                category: 'Metal Pen',
+                price: 9.00,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/metal-pen.png',
+                description: 'Ball/Roller Pen. Black. Min Order: 10 PCS',
+                stock: 200
+            },
+            {
+                title: 'METAL PEN MP 37',
+                category: 'Metal Pen',
+                price: 9.00,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/metal-pen.png',
+                description: 'Ball Pen. Black. Min Order: 10 PCS',
+                stock: 200
+            },
+            {
+                title: 'METAL PEN MP 24',
+                category: 'Metal Pen',
+                price: 9.50,
+                imagePath: 'https://sukaprint.com/wp-content/uploads/2025/07/metal-pen.png',
+                description: 'Ball Pen. Black, White, Blue, Pink, Purple. Min Order: 10 PCS',
+                stock: 200
             }
         ];
         await Product.insertMany(products);

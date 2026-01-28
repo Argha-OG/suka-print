@@ -18,6 +18,12 @@ const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
 const AdminProducts = lazy(() => import('./pages/admin/Products'));
 const ProductForm = lazy(() => import('./pages/admin/ProductForm'));
 const MarketingManager = lazy(() => import('./pages/admin/MarketingManager'));
+const HelpCenter = lazy(() => import('./pages/HelpCenter'));
+const ReturnsRefunds = lazy(() => import('./pages/ReturnsRefunds'));
+const ShippingInfo = lazy(() => import('./pages/ShippingInfo'));
+const TrackOrder = lazy(() => import('./pages/TrackOrder'));
+const Blog = lazy(() => import('./pages/Blog'));
+const Careers = lazy(() => import('./pages/Careers'));
 
 // Loading Fallback
 const PageLoader = () => (
@@ -48,6 +54,12 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/cart" element={<Cart />} />
+                <Route path="/help-center" element={<HelpCenter />} />
+                <Route path="/returns-refunds" element={<ReturnsRefunds />} />
+                <Route path="/shipping-info" element={<ShippingInfo />} />
+                <Route path="/track-order" element={<TrackOrder />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/careers" element={<Careers />} />
               </Route>
 
               {/* Admin Routes */}

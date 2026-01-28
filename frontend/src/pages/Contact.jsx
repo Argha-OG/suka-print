@@ -28,7 +28,7 @@ const Contact = () => {
                             </div>
                             <div>
                                 <h3 className="font-bold text-lg">Address</h3>
-                                <p className="text-gray-600">123, Jalan Bukit Bintang, 55100 Kuala Lumpur, Malaysia</p>
+                                <p className="text-gray-600">G-20-1 Jalan Dedap 14, Johor Jaya, 81100 Johor Bahru, Malaysia</p>
                             </div>
                         </div>
 
@@ -38,7 +38,7 @@ const Contact = () => {
                             </div>
                             <div>
                                 <h3 className="font-bold text-lg">Phone</h3>
-                                <p className="text-gray-600">+60 12-345 6789</p>
+                                <p className="text-gray-600">+60 11-1414 1509</p>
                             </div>
                         </div>
 
@@ -84,6 +84,18 @@ const Contact = () => {
                         </Button>
                     </form>
                 </div>
+            </div>
+
+            {/* Google Map */}
+            <div className="mt-20 rounded-2xl overflow-hidden shadow-lg border border-gray-100 h-[400px]">
+                <iframe
+                    title="Suka Print Location"
+                    className="w-full h-full border-0"
+                    src="https://maps.google.com/maps?q=G-20-1%20Jalan%20Dedap%2014%2C%20johor%20jaya%2C%2081100%20Johor%20Bahru%2C%20Malaysia&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
             </div>
         </div>
     );

@@ -17,7 +17,7 @@ const Cart = () => {
         });
         message += `\n*Total: RM${cartTotal.toFixed(2)}*\n\nPlease confirm my order.`;
 
-        window.open(`https://wa.me/60123456789?text=${encodeURIComponent(message)}`, '_blank');
+        window.open(`https://wa.me/601114141509?text=${encodeURIComponent(message)}`, '_blank');
     };
 
     if (!cart || cart.length === 0) {
