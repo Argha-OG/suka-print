@@ -11,11 +11,13 @@ import html2canvas from 'html2canvas';
 const InvoiceList = () => {
     const [invoices, setInvoices] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [mounted, setMounted] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [viewingInvoice, setViewingInvoice] = useState(null);
     const invoiceRef = useRef();
 
     useEffect(() => {
+        setMounted(true);
         fetchInvoices();
     }, []);
 
@@ -103,7 +105,7 @@ const InvoiceList = () => {
         }, 100);
     };
 
-    if (loading) return <div className="p-8 text-center text-gray-500">Loading Invoices...</div>;
+    if (!mounted || loading) return <div className="p-8 text-center text-gray-500 min-h-screen">Loading Invoices...</div>;
 
     return (
         <div className="space-y-8">

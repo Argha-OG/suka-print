@@ -23,12 +23,14 @@ const ProductForm = ({ id: propId }) => {
   });
   const [preview, setPreview] = useState("");
   const [loading, setLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     if (isEditMode) {
       fetchProduct();
     }
-  }, [id]);
+  }, [id, isEditMode]);
 
   const fetchProduct = async () => {
     try {
@@ -99,6 +101,8 @@ const ProductForm = ({ id: propId }) => {
       setLoading(false);
     }
   };
+
+  if (!mounted) return <div className="p-8 text-center text-gray-500 min-h-screen">Loading Product Form...</div>;
 
   return (
     <div className="max-w-2xl mx-auto">
