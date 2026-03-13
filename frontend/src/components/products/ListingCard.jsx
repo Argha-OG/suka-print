@@ -12,7 +12,7 @@ const ListingCard = ({ product }) => {
     const navigate = useRouter();
 
     const handleCardClick = () => {
-        navigate(`/products/${product._id}`);
+        navigate.push(`/products/${product._id}`);
     };
 
     const handleAddToCart = (e) => {
@@ -23,7 +23,7 @@ const ListingCard = ({ product }) => {
     const handleBuyNow = (e) => {
         e.stopPropagation();
         addToCart(product);
-        navigate('/cart');
+        navigate.push('/cart');
     };
 
     return (
