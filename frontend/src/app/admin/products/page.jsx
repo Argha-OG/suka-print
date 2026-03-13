@@ -68,7 +68,7 @@ const AdminProducts = () => {
                                 <td className="p-4 font-bold">RM{product.price}</td>
                                 <td className="p-4">
                                     <div className="flex gap-2">
-                                        <button onClick={() => navigate(`/admin/products/${product._id}/edit`)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-md">
+                                        <button onClick={() => navigate.push(`/admin/products/${product._id}/edit`)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-md">
                                             <Edit size={18} />
                                         </button>
                                         <button onClick={() => handleDelete(product._id)} className="p-2 text-red-600 hover:bg-red-50 rounded-md">
