@@ -13,7 +13,7 @@ const ProductCard = ({ product }) => {
     const navigate = useRouter();
 
     const handleCardClick = () => {
-        navigate(`/products/${product._id}`);
+        navigate.push(`/products/${product._id}`);
     };
 
     const handleAddToCart = (e) => {
@@ -25,7 +25,7 @@ const ProductCard = ({ product }) => {
     const handleBuyNow = (e) => {
         e.stopPropagation();
         addToCart(product);
-        navigate('/cart');
+        navigate.push('/cart');
     };
 
     return (
