@@ -1,6 +1,7 @@
+"use client";
 import React, { useState } from 'react';
 import ProductCard from './ProductCard';
-import { cn } from '../../lib/utils';
+import { cn } from '@/lib/utils';
 
 // Mock Data
 const products = [

@@ -1,13 +1,16 @@
+"use client";
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ShoppingCart, Heart, Eye } from 'lucide-react';
 import { Button } from '../ui/button';
-import { Link, useNavigate } from 'react-router-dom';
-import { useCart } from '../../context/CartContext';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+
+import { useCart } from '@/context/CartContext';
 
 const ProductCard = ({ product }) => {
     const { addToCart } = useCart();
-    const navigate = useNavigate();
+    const navigate = useRouter();
 
     const handleCardClick = () => {
         navigate(`/products/${product._id}`);

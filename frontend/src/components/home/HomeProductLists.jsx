@@ -1,16 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 import { Button } from '../ui/button';
 import { Star } from 'lucide-react';
 
-import { products } from '../../data/products';
+import { products } from '@/data/products';
 
 const ProductList = ({ title, items }) => (
     <div className="flex-1">
         <h3 className="font-bold text-lg mb-6 uppercase text-gray-800 border-b pb-2">{title}</h3>
         <div className="space-y-6">
             {items.map((item, idx) => (
-                <Link to={`/products/${item._id}`} key={idx} className="flex gap-4 group cursor-pointer">
+                <Link href={`/products/${item._id}`} key={idx} className="flex gap-4 group cursor-pointer">
                     <div className="w-20 h-20 bg-gray-50 rounded-lg overflow-hidden shrink-0">
                         <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
                     </div>
@@ -27,11 +28,11 @@ const ProductList = ({ title, items }) => (
     </div>
 );
 
-const HomeProductLists = () => {
+const HomeProductLists = ({ featuredData }) => {
     // Get distinct sets of products for each list
-    const bestSellers = products.slice(0, 3);
-    const topSales = products.slice(3, 6);
-    const topRated = products.slice(6, 9);
+    const bestSellers = featuredData ? featuredData.slice(0, 3) : products.slice(0, 3);
+    const topSales = featuredData && featuredData.length >= 6 ? featuredData.slice(3, 6) : products.slice(3, 6);
+    const topRated = featuredData && featuredData.length >= 9 ? featuredData.slice(6, 9) : products.slice(6, 9);
 
     return (
         <section className="mb-16">
@@ -58,7 +59,7 @@ const HomeProductLists = () => {
                         className="w-48 h-48 object-contain mb-6 group-hover:scale-110 transition-transform duration-500"
                     />
 
-                    <Link to="/products">
+                    <Link href="/products">
                         <Button className="bg-white text-gray-900 hover:bg-gray-100 font-bold px-8 rounded-full shadow-sm">
                             Shop Now
                         </Button>

@@ -1,3 +1,4 @@
+"use client";
 import { ShoppingCart } from 'lucide-react';
 
 // ... (in Navbar, this logic is needed to show the count)

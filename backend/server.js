@@ -24,12 +24,18 @@ const productRoutes = require('./routes/productRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const marketingRoutes = require('./routes/marketingRoutes');
 const offerRoutes = require('./routes/offerRoutes');
+const homepageRoutes = require('./routes/homepageRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const settingsRoutes = require('./routes/settingsRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/marketing', marketingRoutes);
 app.use('/api/offers', offerRoutes);
+app.use('/api/homepage', homepageRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/settings', settingsRoutes);
 
 // Make uploads folder static
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));

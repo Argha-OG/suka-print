@@ -52,7 +52,12 @@ const updateProduct = async (req, res) => {
         const product = await Product.findById(req.params.id);
         if (product) {
             product.title = req.body.title || product.title;
-            // Add other fields updates here
+            product.description = req.body.description || product.description;
+            product.price = req.body.price || product.price;
+            product.category = req.body.category || product.category;
+            product.stock = req.body.stock !== undefined ? req.body.stock : product.stock;
+            product.imagePath = req.body.imagePath || product.imagePath;
+
             const updatedProduct = await product.save();
             res.json(updatedProduct);
         } else {
