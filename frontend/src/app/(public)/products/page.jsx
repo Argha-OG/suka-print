@@ -3,6 +3,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { Filter, ChevronDown, SearchX } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
+import { getBaseURL } from '@/lib/api';
 
 import ListingCard from '@/components/products/ListingCard';
 import { Button } from '@/components/ui/button';
@@ -21,7 +22,7 @@ const ProductListingContent = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const res = await axios.get(process.env.NEXT_PUBLIC_API_URL ? `${process.env.NEXT_PUBLIC_API_URL}/api/products` : 'http://localhost:5000/api/products');
+                const res = await axios.get(`${getBaseURL()}/products`);
                 setProducts(res.data);
             } catch (err) {
                 console.error("Failed to fetch products", err);

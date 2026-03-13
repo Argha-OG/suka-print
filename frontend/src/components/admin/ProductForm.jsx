@@ -5,7 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, Upload } from "lucide-react";
-import api from "@/lib/api";
+import api, { getRawBaseURL } from "@/lib/api";
 
 const ProductForm = ({ id: propId }) => {
   const router = useRouter();
@@ -74,8 +74,7 @@ const ProductForm = ({ id: propId }) => {
         const uploadData = new FormData();
         uploadData.append("image", formData.image);
         const { data } = await api.post("/upload", uploadData);
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-        imagePath = `${apiUrl}${data}`; 
+        imagePath = `${getRawBaseURL()}${data}`; 
       }
 
       const productData = {

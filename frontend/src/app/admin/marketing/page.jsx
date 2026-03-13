@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Upload } from 'lucide-react';
-import api from '@/lib/api';
+import api, { getRawBaseURL } from '@/lib/api';
 
 const MarketingManager = () => {
     const [items, setItems] = useState([]);
@@ -34,11 +34,9 @@ const MarketingManager = () => {
             const uploadData = new FormData();
             uploadData.append('image', formData.image);
             const { data: imagePath } = await api.post('/upload', uploadData);
-            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-
             await api.post('/marketing', {
                 ...formData,
-                imagePath: `${apiUrl}${imagePath}`
+                imagePath: `${getRawBaseURL()}${imagePath}`
             });
             alert('Marketing item added!');
             // fetchMarketing();

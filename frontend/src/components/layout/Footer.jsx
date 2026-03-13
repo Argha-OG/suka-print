@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import { getBaseURL } from '@/lib/api';
 import Link from 'next/link';
 
 import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from 'lucide-react';
@@ -12,8 +13,8 @@ const Footer = () => {
     useEffect(() => {
         const fetchSettings = async () => {
             try {
-                const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-                const res = await fetch(`${apiUrl}/api/settings`);
+                const apiUrl = getBaseURL();
+                const res = await fetch(`${apiUrl}/settings`);
                 const data = await res.json();
                 setSettings(data);
             } catch (err) {

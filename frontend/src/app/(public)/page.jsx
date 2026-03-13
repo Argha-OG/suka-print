@@ -1,4 +1,5 @@
 import HeroSlider from '@/components/home/HeroSlider';
+import { getBaseURL } from '@/lib/api';
 import ServiceIcons from '@/components/home/ServiceIcons';
 import PromoBanners from '@/components/home/PromoBanners';
 import DealOfTheDay from '@/components/home/DealOfTheDay';
@@ -14,8 +15,8 @@ export const dynamic = 'force-dynamic';
 
 async function getHomepageData() {
     try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-        const res = await fetch(`${apiUrl}/api/homepage`, { cache: 'no-store' });
+        const apiUrl = getBaseURL();
+        const res = await fetch(`${apiUrl}/homepage`, { cache: 'no-store' });
         if (!res.ok) return null;
         return await res.json();
     } catch (err) {

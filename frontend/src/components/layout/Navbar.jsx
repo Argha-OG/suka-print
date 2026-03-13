@@ -8,6 +8,7 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { cn } from '@/lib/utils';
 import { useCart } from '@/context/CartContext';
+import { getBaseURL } from '@/lib/api';
 const logoDefault = '/assets/suka.png';
 import { products } from '@/data/products';
 const shirtCatalog = '/assets/Shirt-catalogue.pdf';
@@ -26,8 +27,8 @@ const Navbar = () => {
     useEffect(() => {
         const fetchSettings = async () => {
             try {
-                const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-                const res = await fetch(`${apiUrl}/api/settings`);
+                const apiUrl = getBaseURL();
+                const res = await fetch(`${apiUrl}/settings`);
                 const data = await res.json();
                 setSettings(data);
             } catch (err) {

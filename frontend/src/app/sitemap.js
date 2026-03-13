@@ -1,4 +1,5 @@
-const EXTERNAL_DATA_URL = process.env.NEXT_PUBLIC_API_URL ? `${process.env.NEXT_PUBLIC_API_URL}/api/products` : 'http://localhost:5000/api/products';
+import { getBaseURL } from '@/lib/api';
+
 const SITE_URL = 'https://www.sukaprint.com';
 
 export default async function sitemap() {
@@ -26,7 +27,7 @@ export default async function sitemap() {
 
   // Dynamic product routes
   try {
-    const res = await fetch(EXTERNAL_DATA_URL);
+    const res = await fetch(`${getBaseURL()}/products`);
     const products = await res.json();
 
     if (!Array.isArray(products)) {
