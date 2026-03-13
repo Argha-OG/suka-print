@@ -29,6 +29,11 @@ export default async function sitemap() {
     const res = await fetch(EXTERNAL_DATA_URL);
     const products = await res.json();
 
+    if (!Array.isArray(products)) {
+      console.warn('Sitemap: Received non-array response from API');
+      return routes;
+    }
+
     const productRoutes = products.map((product) => ({
       url: `${SITE_URL}/products/${product._id}`,
       lastModified: new Date().toISOString(),
