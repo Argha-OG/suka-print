@@ -36,9 +36,21 @@ app.use(cors({
 }));
 
 // Database Connection
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/suka-print')
-    .then(() => console.log('MongoDB Connected'))
-    .catch(err => console.error('MongoDB Connection Error:', err));
+const connectDB = async () => {
+    try {
+        const conn = await mongoose.connect(process.env.MONGO_URI);
+        console.log(`MongoDB Connected: ${conn.connection.host}`);
+    } catch (err) {
+        console.error('MongoDB Connection Error:', err.message);
+        // Exiting the process with failure in case of connection error during startup
+        // This is better for Vercel/Docker as it registers as a crash rather than a hanging state
+        if (process.env.NODE_ENV === 'production') {
+            process.exit(1);
+        }
+    }
+};
+
+connectDB();
 
 // Routes
 const authRoutes = require('./routes/authRoutes');
@@ -64,6 +76,16 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 app.get('/', (req, res) => {
     res.send('Suka Print API is running...');
+});
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+    const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+    console.error(`[Error Handler] ${req.method} ${req.url}:`, err.message);
+    res.status(statusCode).json({
+        message: err.message,
+        stack: process.env.NODE_ENV === 'production' ? null : err.stack,
+    });
 });
 
 app.listen(PORT, () => {
