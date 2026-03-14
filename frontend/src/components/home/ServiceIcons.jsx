@@ -1,7 +1,7 @@
 import React from 'react';
 import { Truck, RotateCcw, Headphones, CreditCard } from 'lucide-react';
 
-const ServiceIcons = () => {
+const ServiceIcons = ({ videoUrl }) => {
     const services = [
         {
             icon: <Truck size={32} />,
@@ -53,7 +53,7 @@ const ServiceIcons = () => {
                 {/* Right Side: Video Section */}
                 <div className="w-full rounded-2xl overflow-hidden shadow-2xl border-4 border-white/50 h-64 md:h-[400px] flex items-center bg-black">
                     <video
-                        src="https://sukaprint.com/wp-content/uploads/2025/02/WhatsApp-Video-2025-02-19-at-1.58.34-PM.mp4"
+                        src={videoUrl || "https://sukaprint.com/wp-content/uploads/2025/02/WhatsApp-Video-2025-02-19-at-1.58.34-PM.mp4"}
                         controls
                         autoPlay
                         muted

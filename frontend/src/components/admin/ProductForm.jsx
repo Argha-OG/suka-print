@@ -20,7 +20,9 @@ const ProductForm = ({ id: propId }) => {
     category: "",
     stock: "",
     image: null,
+    imageUrl: "",
   });
+  const [imageSource, setImageSource] = useState("file");
   const [preview, setPreview] = useState("");
   const [loading, setLoading] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -41,9 +43,13 @@ const ProductForm = ({ id: propId }) => {
         price: data.price,
         category: data.category,
         stock: data.stock,
-        image: data.imagePath,
+        image: null,
+        imageUrl: data.imagePath,
       });
       setPreview(data.imagePath);
+      if (data.imagePath?.startsWith("http") && !data.imagePath?.includes(getRawBaseURL())) {
+        setImageSource("url");
+      }
     } catch (error) {
       console.error("Failed to fetch product");
     }
@@ -67,14 +73,14 @@ const ProductForm = ({ id: propId }) => {
     setLoading(true);
 
     try {
-      let imagePath = formData.image;
+      let imagePath = imageSource === "file" ? formData.image : formData.imageUrl;
 
       // Upload image if it's a file object (new upload)
-      if (formData.image instanceof File) {
+      if (imageSource === "file" && formData.image instanceof File) {
         const uploadData = new FormData();
         uploadData.append("image", formData.image);
         const { data } = await api.post("/upload", uploadData);
-        imagePath = `${getRawBaseURL()}${data}`; 
+        imagePath = `${getRawBaseURL()}${data}`;
       }
 
       const productData = {
@@ -118,23 +124,62 @@ const ProductForm = ({ id: propId }) => {
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-xl shadow-sm space-y-6"
       >
-        {/* Image Upload */}
-        <div className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-xl p-8 cursor-pointer hover:bg-gray-50 transition-colors relative">
-          <input
-            type="file"
-            onChange={handleImageChange}
-            className="absolute inset-0 opacity-0 cursor-pointer"
-            accept="image/*"
-          />
-          {preview ? (
-            <img src={preview} alt="Preview" className="h-48 object-contain" />
-          ) : (
-            <div className="text-center text-gray-500">
-              <Upload size={32} className="mx-auto mb-2" />
-              <p>Click to upload image</p>
-            </div>
-          )}
+        {/* Image Source Toggle */}
+        <div className="flex gap-2 p-1 bg-gray-100 rounded-lg w-fit">
+          <button
+            type="button"
+            onClick={() => setImageSource("file")}
+            className={`px-4 py-1.5 rounded-md text-xs font-bold transition-all ${imageSource === "file" ? "bg-white text-primary-blue shadow-sm" : "text-gray-500 hover:text-gray-700"}`}
+          >
+            File Upload
+          </button>
+          <button
+            type="button"
+            onClick={() => setImageSource("url")}
+            className={`px-4 py-1.5 rounded-md text-xs font-bold transition-all ${imageSource === "url" ? "bg-white text-primary-blue shadow-sm" : "text-gray-500 hover:text-gray-700"}`}
+          >
+            Image URL
+          </button>
         </div>
+
+        {/* Image Input Selection */}
+        {imageSource === "file" ? (
+          <div className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-xl p-8 cursor-pointer hover:bg-gray-50 transition-colors relative">
+            <input
+              type="file"
+              onChange={handleImageChange}
+              className="absolute inset-0 opacity-0 cursor-pointer"
+              accept="image/*"
+            />
+            {preview && imageSource === "file" ? (
+              <img src={preview} alt="Preview" className="h-48 object-contain" />
+            ) : (
+              <div className="text-center text-gray-500">
+                <Upload size={32} className="mx-auto mb-2" />
+                <p>Click to upload image</p>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <div className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-xl p-4 bg-gray-50/50">
+               {formData.imageUrl ? (
+                 <img src={formData.imageUrl} alt="External Preview" className="h-48 object-contain" onError={(e) => e.target.src='https://placehold.co/400x300?text=Invalid+Image+URL'} />
+               ) : (
+                 <div className="h-48 flex items-center justify-center text-gray-400 text-sm italic">
+                   No URL provided yet
+                 </div>
+               )}
+            </div>
+            <Input
+              name="imageUrl"
+              placeholder="https://example.com/image.jpg"
+              value={formData.imageUrl}
+              onChange={handleChange}
+              className="bg-white"
+            />
+          </div>
+        )}
 
         <div className="grid grid-cols-2 gap-4">
           <div>

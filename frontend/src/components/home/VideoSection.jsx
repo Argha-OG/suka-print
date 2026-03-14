@@ -14,14 +14,22 @@ const VideoSection = ({ data }) => {
                     </p>
                 </div>
                 <div className="w-full md:w-1/2">
-                    <div className="aspect-w-16 aspect-h-9 w-full rounded-2xl overflow-hidden shadow-2xl border-4 border-gray-50 transform hover:scale-[1.02] transition-transform duration-300">
-                        <iframe 
-                            src={data.videoUrl} 
-                            title={data.title}
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowFullScreen
-                            className="w-full h-full min-h-[300px]"
-                        ></iframe>
+                    <div className="aspect-w-16 aspect-h-9 w-full rounded-2xl overflow-hidden shadow-2xl border-4 border-gray-50 transform hover:scale-[1.02] transition-transform duration-300 bg-black">
+                        {data.videoUrl?.includes('youtube.com') || data.videoUrl?.includes('youtu.be') ? (
+                            <iframe 
+                                src={data.videoUrl} 
+                                title={data.title}
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowFullScreen
+                                className="w-full h-full min-h-[300px]"
+                            ></iframe>
+                        ) : (
+                            <video
+                                src={data.videoUrl}
+                                controls
+                                className="w-full h-full min-h-[300px] object-cover"
+                            />
+                        )}
                     </div>
                 </div>
             </div>

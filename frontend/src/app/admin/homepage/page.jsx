@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Plus, Trash2, Save, Star, Timer, Tag, Image as ImageIcon, Layout, Smartphone, PenTool } from 'lucide-react';
-import api from '@/lib/api';
+import api, { getRawBaseURL } from '@/lib/api';
 
 const HomepageConfig = () => {
     const [loading, setLoading] = useState(false);
@@ -111,6 +111,20 @@ const HomepageConfig = () => {
     const updateDeal = (field, value) => setConfig(prev => ({ ...prev, dealOfTheDay: { ...prev.dealOfTheDay, [field]: value } }));
     const updateAppBanner = (field, value) => setConfig(prev => ({ ...prev, appBanner: { ...prev.appBanner, [field]: value } }));
     const updateCustomPrints = (field, value) => setConfig(prev => ({ ...prev, customPrints: { ...prev.customPrints, [field]: value } }));
+    const updateVideoProcess = (field, value) => setConfig(prev => ({ ...prev, videoProcess: { ...prev.videoProcess, [field]: value } }));
+
+    const handleAssetUpload = async (file, onUpload) => {
+        const loadingToast = alert('Uploading asset... please wait.'); // Simple feedback
+        try {
+            const uploadData = new FormData();
+            uploadData.append('image', file); // Backend expects 'image' field for all uploads
+            const { data } = await api.post('/upload', uploadData);
+            onUpload(`${getRawBaseURL()}${data}`);
+        } catch (error) {
+            console.error('Upload failed:', error);
+            alert('Upload failed. Please check file size or network.');
+        }
+    };
 
     const toggleFeaturedProduct = (productId) => {
         setConfig(prev => {
@@ -149,7 +163,35 @@ const HomepageConfig = () => {
                         <div key={i} className="bg-gray-50 p-6 rounded-2xl relative border border-transparent hover:border-blue-100 transition-all group">
                             <button onClick={() => setConfig(prev => ({ ...prev, heroCarousel: prev.heroCarousel.filter((_, idx) => idx !== i) }))} className="absolute top-4 right-4 text-red-300 hover:text-red-500"><Trash2 size={18}/></button>
                             <div className="space-y-4">
-                                <Input label="Image URL" value={slide.image} onChange={(e) => updateHeroSlide(i, 'image', e.target.value)} onFocus={e => e.target.select()} autoComplete="off" placeholder="URL to image..." className="bg-white" />
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-1">Slide Image (URL or Upload)</label>
+                                    <div className="flex gap-2">
+                                        <Input 
+                                            value={slide.image} 
+                                            onChange={(e) => updateHeroSlide(i, 'image', e.target.value)} 
+                                            onFocus={e => e.target.select()} 
+                                            autoComplete="off" 
+                                            placeholder="https://example.com/slide.jpg" 
+                                            className="bg-white flex-1" 
+                                        />
+                                        <div className="relative">
+                                            <input 
+                                                type="file" 
+                                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
+                                                onChange={(e) => handleAssetUpload(e.target.files[0], (url) => updateHeroSlide(i, 'image', url))}
+                                                accept="image/*"
+                                            />
+                                            <Button variant="outline" className="h-10 w-10 p-0 rounded-lg border-gray-200">
+                                                <Upload size={16} />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                    {slide.image && (
+                                        <div className="h-20 w-32 rounded-lg border border-gray-100 overflow-hidden bg-white mt-2">
+                                            <img src={slide.image} alt="Preview" className="w-full h-full object-cover" onError={(e) => e.target.src='https://placehold.co/100x80?text=Invalid'} />
+                                        </div>
+                                    )}
+                                </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <Input label="Title" value={slide.title} onChange={(e) => updateHeroSlide(i, 'title', e.target.value)} onFocus={e => e.target.select()} autoComplete="off" placeholder="Big Bold Title" className="bg-white" />
                                     <Input label="Subtitle" value={slide.subtitle} onChange={(e) => updateHeroSlide(i, 'subtitle', e.target.value)} onFocus={e => e.target.select()} autoComplete="off" placeholder="Smaller text..." className="bg-white" />
@@ -157,6 +199,42 @@ const HomepageConfig = () => {
                             </div>
                         </div>
                     ))}
+                </div>
+            </section>
+            {/* Video Process Section */}
+            <section className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 space-y-6">
+                <div className="flex items-center gap-3 border-b border-gray-50 pb-6">
+                    <div className="p-2 bg-orange-50 text-orange-600 rounded-xl"><Plus size={20}/></div>
+                    <h2 className="text-xl font-bold text-gray-800">Video Process Showcase</h2>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="md:col-span-2 space-y-2">
+                        <label className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-1">Video Source (URL or Upload)</label>
+                        <div className="flex gap-2">
+                            <Input 
+                                value={config.videoProcess.videoUrl} 
+                                onChange={(e) => updateVideoProcess('videoUrl', e.target.value)} 
+                                onFocus={e => e.target.select()} 
+                                autoComplete="off" 
+                                placeholder="https://example.com/video.mp4"
+                                className="bg-gray-50 border-none flex-1" 
+                            />
+                            <div className="relative">
+                                <input 
+                                    type="file" 
+                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
+                                    onChange={(e) => handleAssetUpload(e.target.files[0], (url) => updateVideoProcess('videoUrl', url))}
+                                    accept="video/*"
+                                />
+                                <Button variant="outline" className="h-10 w-10 p-0 rounded-lg border-gray-200">
+                                    <Upload size={16} />
+                                </Button>
+                            </div>
+                        </div>
+                        <p className="text-[10px] text-gray-400 mt-2 italic font-medium px-1">Note: Use direct video links or Cloudinary/Vercel Blob URLs for best performance.</p>
+                    </div>
+                    <Input label="Video Title" value={config.videoProcess.title} onChange={(e) => updateVideoProcess('title', e.target.value)} onFocus={e => e.target.select()} autoComplete="off" placeholder="Our Printing Process" className="bg-gray-50 border-none" />
+                    <Input label="Section Subtitle" value={config.videoProcess.description} onChange={(e) => updateVideoProcess('description', e.target.value)} onFocus={e => e.target.select()} autoComplete="off" placeholder="Watch how we craft your products" className="bg-gray-50 border-none" />
                 </div>
             </section>
 
@@ -177,7 +255,30 @@ const HomepageConfig = () => {
                             <button onClick={() => setConfig(prev => ({ ...prev, popularCategories: prev.popularCategories.filter((_, idx) => idx !== i) }))} className="absolute top-4 right-4 text-red-300 hover:text-red-500"><Trash2 size={18}/></button>
                             <div className="space-y-3">
                                 <Input label="Name" value={cat.name} onChange={(e) => updateCategory(i, 'name', e.target.value)} onFocus={e => e.target.select()} autoComplete="off" placeholder="e.g. Stickers" className="bg-white" />
-                                <Input label="Image URL" value={cat.image} onChange={(e) => updateCategory(i, 'image', e.target.value)} onFocus={e => e.target.select()} autoComplete="off" placeholder="URL..." className="bg-white" />
+                                <div className="space-y-1">
+                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Image (URL or Upload)</label>
+                                    <div className="flex gap-2">
+                                        <Input 
+                                            value={cat.image} 
+                                            onChange={(e) => updateCategory(i, 'image', e.target.value)} 
+                                            onFocus={e => e.target.select()} 
+                                            autoComplete="off" 
+                                            placeholder="URL..." 
+                                            className="bg-white flex-1 text-xs" 
+                                        />
+                                        <div className="relative">
+                                            <input 
+                                                type="file" 
+                                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
+                                                onChange={(e) => handleAssetUpload(e.target.files[0], (url) => updateCategory(i, 'image', url))}
+                                                accept="image/*"
+                                            />
+                                            <Button variant="outline" className="h-10 w-10 p-0 rounded-lg border-gray-100">
+                                                <ImageIcon size={14} />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     ))}
@@ -202,7 +303,30 @@ const HomepageConfig = () => {
                             placeholder="Long description..."
                         />
                     </div>
-                    <Input label="Image URL" value={config.customPrints.image} onChange={(e) => updateCustomPrints('image', e.target.value)} onFocus={e => e.target.select()} autoComplete="off" className="bg-gray-50 border-none" />
+                    <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-1">Image Asset (URL or Upload)</label>
+                        <div className="flex gap-2">
+                            <Input 
+                                value={config.customPrints.image} 
+                                onChange={(e) => updateCustomPrints('image', e.target.value)} 
+                                onFocus={e => e.target.select()} 
+                                autoComplete="off" 
+                                placeholder="URL..." 
+                                className="bg-gray-50 border-none flex-1" 
+                            />
+                            <div className="relative">
+                                <input 
+                                    type="file" 
+                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
+                                    onChange={(e) => handleAssetUpload(e.target.files[0], (url) => updateCustomPrints('image', url))}
+                                    accept="image/*"
+                                />
+                                <Button variant="outline" className="h-10 w-10 p-0 rounded-lg border-gray-100 bg-white">
+                                    <ImageIcon size={16} />
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
                     <div className="grid grid-cols-2 gap-4">
                         <Input label="Btn Text" value={config.customPrints.buttonText} onChange={(e) => updateCustomPrints('buttonText', e.target.value)} onFocus={e => e.target.select()} autoComplete="off" className="bg-gray-50 border-none" />
                         <Input label="Btn Link" value={config.customPrints.buttonLink} onChange={(e) => updateCustomPrints('buttonLink', e.target.value)} onFocus={e => e.target.select()} autoComplete="off" className="bg-gray-50 border-none" />
@@ -219,7 +343,30 @@ const HomepageConfig = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <Input label="App Title" value={config.appBanner.title} onChange={(e) => updateAppBanner('title', e.target.value)} onFocus={e => e.target.select()} autoComplete="off" className="bg-gray-50 border-none" />
                     <Input label="App Description" value={config.appBanner.subtitle} onChange={(e) => updateAppBanner('subtitle', e.target.value)} onFocus={e => e.target.select()} autoComplete="off" className="bg-gray-50 border-none" />
-                    <Input label="Mockup Image" value={config.appBanner.image} onChange={(e) => updateAppBanner('image', e.target.value)} onFocus={e => e.target.select()} autoComplete="off" className="bg-gray-50 border-none" />
+                    <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-1">Mockup Image (URL or Upload)</label>
+                        <div className="flex gap-2">
+                            <Input 
+                                value={config.appBanner.image} 
+                                onChange={(e) => updateAppBanner('image', e.target.value)} 
+                                onFocus={e => e.target.select()} 
+                                autoComplete="off" 
+                                placeholder="URL..." 
+                                className="bg-gray-50 border-none flex-1" 
+                            />
+                            <div className="relative">
+                                <input 
+                                    type="file" 
+                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
+                                    onChange={(e) => handleAssetUpload(e.target.files[0], (url) => updateAppBanner('image', url))}
+                                    accept="image/*"
+                                />
+                                <Button variant="outline" className="h-10 w-10 p-0 rounded-lg border-gray-100 bg-white">
+                                    <Smartphone size={16} />
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
                     <div className="grid grid-cols-2 gap-4">
                         <Input label="App Store Link" value={config.appBanner.appStoreLink} onChange={(e) => updateAppBanner('appStoreLink', e.target.value)} onFocus={e => e.target.select()} autoComplete="off" className="bg-gray-50 border-none" />
                         <Input label="Play Store Link" value={config.appBanner.playStoreLink} onChange={(e) => updateAppBanner('playStoreLink', e.target.value)} onFocus={e => e.target.select()} autoComplete="off" className="bg-gray-50 border-none" />
@@ -243,7 +390,30 @@ const HomepageConfig = () => {
                         <div key={i} className="bg-gray-50 p-6 rounded-2xl relative border border-transparent hover:border-purple-100 transition-all">
                             <button onClick={() => setConfig(prev => ({ ...prev, promoBanners: prev.promoBanners.filter((_, idx) => idx !== i) }))} className="absolute top-4 right-4 text-red-300 hover:text-red-500"><Trash2 size={18}/></button>
                             <div className="space-y-3">
-                                <Input label="Image" value={banner.image} onChange={(e) => updatePromoBanner(i, 'image', e.target.value)} onFocus={e => e.target.select()} autoComplete="off" placeholder="/assets/promo.jpg" className="bg-white" />
+                                <div className="space-y-1">
+                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Image (URL or Upload)</label>
+                                    <div className="flex gap-2">
+                                        <Input 
+                                            value={banner.image} 
+                                            onChange={(e) => updatePromoBanner(i, 'image', e.target.value)} 
+                                            onFocus={e => e.target.select()} 
+                                            autoComplete="off" 
+                                            placeholder="URL..." 
+                                            className="bg-white flex-1 text-xs" 
+                                        />
+                                        <div className="relative">
+                                            <input 
+                                                type="file" 
+                                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
+                                                onChange={(e) => handleAssetUpload(e.target.files[0], (url) => updatePromoBanner(i, 'image', url))}
+                                                accept="image/*"
+                                            />
+                                            <Button variant="outline" className="h-10 w-10 p-0 rounded-lg border-gray-100 bg-white">
+                                                <ImageIcon size={14} />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </div>
                                 <Input label="Title" value={banner.title} onChange={(e) => updatePromoBanner(i, 'title', e.target.value)} onFocus={e => e.target.select()} autoComplete="off" placeholder="Sticker Pack" className="bg-white" />
                                 <Input label="Subtitle" value={banner.subtitle} onChange={(e) => updatePromoBanner(i, 'subtitle', e.target.value)} onFocus={e => e.target.select()} autoComplete="off" placeholder="New Design" className="bg-white" />
                             </div>
@@ -294,7 +464,30 @@ const HomepageConfig = () => {
                             <img src={t.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(t.name)}`} className="w-16 h-16 rounded-full bg-white border-2 border-amber-100" />
                             <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <Input label="Customer Name" value={t.name} onChange={(e) => updateTestimonial(i, 'name', e.target.value)} onFocus={e => e.target.select()} autoComplete="off" placeholder="Full Name" className="bg-white" />
-                                <Input label="Avatar URL (Optional)" value={t.avatar} onChange={(e) => updateTestimonial(i, 'avatar', e.target.value)} onFocus={e => e.target.select()} autoComplete="off" className="bg-white" />
+                                <div className="space-y-1">
+                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Avatar (URL or Upload)</label>
+                                    <div className="flex gap-2">
+                                        <Input 
+                                            value={t.avatar} 
+                                            onChange={(e) => updateTestimonial(i, 'avatar', e.target.value)} 
+                                            onFocus={e => e.target.select()} 
+                                            autoComplete="off" 
+                                            placeholder="URL..." 
+                                            className="bg-white flex-1 text-xs" 
+                                        />
+                                        <div className="relative">
+                                            <input 
+                                                type="file" 
+                                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
+                                                onChange={(e) => handleAssetUpload(e.target.files[0], (url) => updateTestimonial(i, 'avatar', url))}
+                                                accept="image/*"
+                                            />
+                                            <Button variant="outline" className="h-10 w-10 p-0 rounded-lg border-gray-200 bg-white">
+                                                <Plus size={12} />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className="md:col-span-2">
                                     <label className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 block">Feedback</label>
                                     <textarea 

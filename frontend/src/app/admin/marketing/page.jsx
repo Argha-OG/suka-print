@@ -12,8 +12,10 @@ const MarketingManager = () => {
         title: '',
         subtitle: '',
         link: '',
-        image: null
+        image: null,
+        imageUrl: ''
     });
+    const [assetSource, setAssetSource] = useState('file');
 
     useEffect(() => {
         // fetchMarketing();
@@ -31,12 +33,18 @@ const MarketingManager = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const uploadData = new FormData();
-            uploadData.append('image', formData.image);
-            const { data: imagePath } = await api.post('/upload', uploadData);
+            let finalImagePath = assetSource === 'file' ? '' : formData.imageUrl;
+
+            if (assetSource === 'file' && formData.image) {
+                const uploadData = new FormData();
+                uploadData.append('image', formData.image);
+                const { data: imagePath } = await api.post('/upload', uploadData);
+                finalImagePath = `${getRawBaseURL()}${imagePath}`;
+            }
+
             await api.post('/marketing', {
                 ...formData,
-                imagePath: `${getRawBaseURL()}${imagePath}`
+                imagePath: finalImagePath
             });
             alert('Marketing item added!');
             // fetchMarketing();
@@ -63,8 +71,40 @@ const MarketingManager = () => {
                             </select>
                         </div>
                         <div>
-                            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 block">Upload Asset</label>
-                            <Input type="file" onChange={handleImageChange} required className="h-12 bg-gray-50 border-none rounded-xl" />
+                            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 block">Asset Source</label>
+                            <div className="flex gap-2 p-1 bg-gray-50 rounded-xl h-12">
+                                <button
+                                    type="button"
+                                    onClick={() => setAssetSource('file')}
+                                    className={`flex-1 rounded-lg text-xs font-bold transition-all ${assetSource === 'file' ? "bg-white text-primary-blue shadow-sm" : "text-gray-500 hover:text-gray-700"}`}
+                                >
+                                    File Upload
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setAssetSource('url')}
+                                    className={`flex-1 rounded-lg text-xs font-bold transition-all ${assetSource === 'url' ? "bg-white text-primary-blue shadow-sm" : "text-gray-500 hover:text-gray-700"}`}
+                                >
+                                    Image URL
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 block">
+                                {assetSource === 'file' ? 'Upload Asset' : 'Asset URL'}
+                            </label>
+                            {assetSource === 'file' ? (
+                                <Input type="file" onChange={handleImageChange} required className="h-12 bg-gray-50 border-none rounded-xl" />
+                            ) : (
+                                <Input 
+                                    name="imageUrl" 
+                                    placeholder="https://example.com/banner.jpg" 
+                                    value={formData.imageUrl} 
+                                    onChange={handleChange} 
+                                    required
+                                    className="h-12 bg-gray-50 border-none rounded-xl" 
+                                />
+                            )}
                         </div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

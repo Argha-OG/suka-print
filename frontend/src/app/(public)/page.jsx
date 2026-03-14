@@ -42,7 +42,7 @@ export default async function Home() {
     return (
         <div className="space-y-12 pb-12 px-4">
             <HeroSlider customSlides={heroSlides} />
-            <ServiceIcons />
+            <ServiceIcons videoUrl={videoData?.videoUrl} />
             {videoData && <VideoSection data={videoData} />}
             <PromoBanners customBanners={promoBanners} />
             <DealOfTheDay customDeal={dealData} />
