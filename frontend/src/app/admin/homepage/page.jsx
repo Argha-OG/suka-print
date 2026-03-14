@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Plus, Trash2, Save, Star, Timer, Tag, Image as ImageIcon, Layout, Smartphone, PenTool } from 'lucide-react';
+import { Plus, Trash2, Save, Star, Timer, Tag, Image as ImageIcon, Layout, Smartphone, PenTool, Upload } from 'lucide-react';
 import api, { getRawBaseURL } from '@/lib/api';
 
 const HomepageConfig = () => {
