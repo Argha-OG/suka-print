@@ -38,6 +38,10 @@ const ProductCard = ({ product }) => {
                 <img
                     src={product.image}
                     alt={product.title}
+                    onError={(e) => {
+                        e.target.onerror = null; 
+                        e.target.src = `https://images.unsplash.com/photo-1586075010619-33b6682b6ecb?auto=format&fit=crop&w=400&q=80`;
+                    }}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
 

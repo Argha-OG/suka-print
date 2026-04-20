@@ -12,25 +12,14 @@ const ServiceIcons = ({ videoUrl }) => {
         const videoId = videoUrl?.split('embed/')[1]?.split('?')[0];
         if (!videoId) return;
 
-        // Load API script if not exists
-        if (!window.YT) {
-            const tag = document.createElement('script');
-            tag.src = "https://www.youtube.com/iframe_api";
-            const firstScriptTag = document.getElementsByTagName('script')[0];
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        }
-
-        const onPlayerReady = (event) => {
-            setPlayer(event.target);
-            event.target.mute();
-            if (event.target.setPlaybackQuality) {
-                event.target.setPlaybackQuality('hd1080');
-            }
-            event.target.playVideo();
-        };
+        let playerInstance = null;
 
         const createPlayer = () => {
-            new window.YT.Player('youtube-player', {
+            // Ensure the container exists and YT is ready
+            const container = document.getElementById('youtube-player');
+            if (!container || !window.YT || !window.YT.Player) return;
+
+            playerInstance = new window.YT.Player('youtube-player', {
                 videoId: videoId,
                 playerVars: {
                     autoplay: 1,
@@ -46,26 +35,33 @@ const ServiceIcons = ({ videoUrl }) => {
                     modestbranding: 1
                 },
                 events: {
-                    onReady: onPlayerReady
+                    onReady: (event) => {
+                        setPlayer(event.target);
+                        event.target.mute();
+                        if (event.target.setPlaybackQuality) {
+                            event.target.setPlaybackQuality('hd1080');
+                        }
+                        event.target.playVideo();
+                    },
+                    onError: (e) => console.error("YouTube Player Error:", e)
                 }
             });
         };
 
-        if (window.YT && window.YT.Player) {
-            createPlayer();
-        } else {
+        // 1. Script Loading
+        if (!window.YT) {
+            const tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
             window.onYouTubeIframeAPIReady = createPlayer;
+        } else {
+            createPlayer();
         }
 
+        // 2. Interaction handling for Magic Unmute
         const handleInteraction = () => {
             setIsMuted(false);
-            if (window.YT && player) {
-                player.unMute();
-                if (player.setPlaybackQuality) {
-                    player.setPlaybackQuality('hd1080');
-                }
-                player.playVideo();
-            }
             window.removeEventListener('click', handleInteraction);
             window.removeEventListener('scroll', handleInteraction);
             window.removeEventListener('touchstart', handleInteraction);
@@ -76,11 +72,12 @@ const ServiceIcons = ({ videoUrl }) => {
         window.addEventListener('touchstart', handleInteraction);
 
         return () => {
+            if (playerInstance && playerInstance.destroy) playerInstance.destroy();
             window.removeEventListener('click', handleInteraction);
             window.removeEventListener('scroll', handleInteraction);
             window.removeEventListener('touchstart', handleInteraction);
         };
-    }, [videoUrl, player]);
+    }, [videoUrl]); // Removed player from dependencies to prevent infinite loop
 
     // Sync isMuted state with YouTube Player
     React.useEffect(() => {
@@ -145,8 +142,15 @@ const ServiceIcons = ({ videoUrl }) => {
                 </div>
 
                 {/* Right Side: Video Section */}
-                <div className="w-full rounded-2xl overflow-hidden shadow-2xl border-4 border-white/50 h-64 md:h-[400px] flex items-center bg-black relative group">
-                    <div id="youtube-player" className="w-[115%] h-[115%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+                <div 
+                    className="w-full rounded-2xl overflow-hidden shadow-2xl border-4 border-white/50 h-64 md:h-[400px] flex items-center bg-black relative group"
+                    style={{
+                        backgroundImage: `url(https://img.youtube.com/vi/${videoUrl?.split('embed/')[1]?.split('?')[0]}/maxresdefault.jpg)`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center'
+                    }}
+                >
+                    <div id="youtube-player" className="w-[115%] h-[115%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-opacity duration-1000"></div>
 
 
 

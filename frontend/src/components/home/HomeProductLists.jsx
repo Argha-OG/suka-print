@@ -1,9 +1,8 @@
+"use client";
 import React from 'react';
 import Link from 'next/link';
-
 import { Button } from '../ui/button';
 import { Star } from 'lucide-react';
-
 import { products } from '@/data/products';
 
 const ProductList = ({ title, items }) => (
@@ -13,7 +12,16 @@ const ProductList = ({ title, items }) => (
             {items.map((item, idx) => (
                 <Link href={`/products/${item._id}`} key={idx} className="flex gap-4 group cursor-pointer">
                     <div className="w-20 h-20 bg-gray-50 rounded-lg overflow-hidden shrink-0">
-                        <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
+                        <img 
+                            src={item.image} 
+                            alt={item.title} 
+                            onError={(e) => {
+                                e.target.onerror = null; 
+                                e.target.src = `https://images.unsplash.com/photo-1512446816042-444d641267d4?auto=format&fit=crop&w=200&q=80`;
+                            }}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform" 
+                        />
+
                     </div>
                     <div>
                         <h4 className="font-medium text-gray-900 mb-1 line-clamp-2 group-hover:text-primary-blue transition-colors">{item.title}</h4>
