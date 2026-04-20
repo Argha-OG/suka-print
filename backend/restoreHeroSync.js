@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 const Homepage = require('./models/Homepage');
 
-const PROD_URI = 'mongodb+srv://arghacypher_db_user:3o80MTFGFb8cZ46e@sukaprint.bnnjl1c.mongodb.net/?appName=sukaprint';
+dotenv.config();
 
 const pinterestHero = [
     {
@@ -48,34 +49,22 @@ const pinterestHero = [
     }
 ];
 
-const pinterestCategories = [
-    { name: 'Business Cards', image: 'https://i.pinimg.com/736x/d2/17/37/d21737ad3b3efafb0447396cd90e72b5.jpg?auto=format&fit=crop&q=80&w=400', link: '/products?category=Business Cards' },
-    { name: 'Banners', image: 'https://i.pinimg.com/1200x/ec/ad/dc/ecaddc22a5b10b944662fbb9cf9372d1.jpg?auto=format&fit=crop&q=80&w=400', link: '/products?category=Banners' },
-    { name: 'Packaging', image: 'https://i.pinimg.com/1200x/9a/b0/c5/9ab0c5eb69dcde68d501687f2775df40.jpg?auto=format&fit=crop&q=80&w=400', link: '/products?category=Packaging' },
-    { name: 'Stickers', image: 'https://i.pinimg.com/1200x/ec/ad/dc/ecaddc22a5b10b944662fbb9cf9372d1.jpg?auto=format&fit=crop&q=80&w=400', link: '/products?category=Stickers' },
-    { name: 'Gifts', image: 'https://i.pinimg.com/736x/ce/af/d3/ceafd31acddcdce3322cd0c348c1c602.jpg?auto=format&fit=crop&q=80&w=400', link: '/products?category=Gifts' },
-    { name: 'Booklets', image: 'https://i.pinimg.com/1200x/9c/49/80/9c4980dd6228bdfca44fc82791c78901.jpg?auto=format&fit=crop&q=80&w=400', link: '/products?category=Booklets' }
-];
-
-const restorePinterestVisuals = async () => {
+const restoreHeroSync = async () => {
     try {
-        await mongoose.connect(PROD_URI);
-        console.log('Restoring Pinterest-style visuals to Production...');
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log('Restoring Hero Slider images to current database...');
 
         await Homepage.findOneAndUpdate(
             { active: true },
-            {
-                heroCarousel: pinterestHero,
-                popularCategories: pinterestCategories
-            }
+            { heroCarousel: pinterestHero }
         );
 
-        console.log('🎉 Successfully restored the 6 previous images for both Hero and Categories!');
+        console.log('🎉 Successfully restored the Hero Slider images!');
         process.exit();
     } catch (err) {
-        console.error('Restoration failed:', err);
+        console.error('Hero sync failed:', err);
         process.exit(1);
     }
 };
 
-restorePinterestVisuals();
+restoreHeroSync();
