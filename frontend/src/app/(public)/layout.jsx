@@ -12,7 +12,7 @@ export default function PublicLayout({ children }) {
 
       <Navbar />
 
-      <main className="flex-1 w-full pt-[140px] md:pt-[160px] relative z-10">
+      <main className="flex-1 w-full pt-[140px] md:pt-[160px] relative">
           {children}
       </main>
 

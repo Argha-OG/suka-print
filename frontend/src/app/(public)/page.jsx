@@ -10,6 +10,7 @@ import Newsletter from '@/components/home/Newsletter';
 import Testimonials from '@/components/home/Testimonials';
 import CustomPrintsSection from '@/components/home/CustomPrintsSection';
 import VideoSection from '@/components/home/VideoSection';
+import PreviousWorks from '@/components/home/PreviousWorks';
 
 export const dynamic = 'force-dynamic';
 
@@ -48,6 +49,7 @@ export default async function Home() {
             <DealOfTheDay customDeal={dealData} />
             <PopularCategories customCategories={categories} />
             <HomeProductLists featuredData={featuredProducts} />
+            <PreviousWorks />
             <Testimonials customTestimonials={testimonials} />
 
             <CustomPrintsSection customData={customPrints} />

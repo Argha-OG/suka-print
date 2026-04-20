@@ -18,24 +18,26 @@ const AppBanner = ({ customData }) => {
                     <p className="text-gray-600 mb-8 text-lg">{subtitle}</p>
 
                     <div className="flex gap-4">
-                        <Button className="bg-black text-white px-6 py-6 rounded-xl flex items-center gap-3 hover:bg-gray-800 transition-colors" asChild>
-                            <a href={appStoreLink}>
-                                <Smartphone size={24} />
-                                <div className="text-left">
-                                    <div className="text-[10px] uppercase">Download on the</div>
-                                    <div className="text-sm font-bold leading-none">App Store</div>
-                                </div>
-                            </a>
-                        </Button>
-                        <Button className="bg-black text-white px-6 py-6 rounded-xl flex items-center gap-3 hover:bg-gray-800 transition-colors" asChild>
-                            <a href={playStoreLink}>
-                                <Smartphone size={24} />
-                                <div className="text-left">
-                                    <div className="text-[10px] uppercase">Get it on</div>
-                                    <div className="text-sm font-bold leading-none">Google Play</div>
-                                </div>
-                            </a>
-                        </Button>
+                        <a 
+                            href={appStoreLink}
+                            className="bg-black text-white px-6 py-4 rounded-xl flex items-center gap-3 hover:bg-gray-800 transition-all shadow-lg hover:shadow-xl"
+                        >
+                            <Smartphone size={24} />
+                            <div className="text-left">
+                                <div className="text-[10px] uppercase opacity-70">Download on the</div>
+                                <div className="text-sm font-bold leading-none">App Store</div>
+                            </div>
+                        </a>
+                        <a 
+                            href={playStoreLink}
+                            className="bg-black text-white px-6 py-4 rounded-xl flex items-center gap-3 hover:bg-gray-800 transition-all shadow-lg hover:shadow-xl"
+                        >
+                            <Smartphone size={24} />
+                            <div className="text-left">
+                                <div className="text-[10px] uppercase opacity-70">Get it on</div>
+                                <div className="text-sm font-bold leading-none">Google Play</div>
+                            </div>
+                        </a>
                     </div>
                 </div>
 

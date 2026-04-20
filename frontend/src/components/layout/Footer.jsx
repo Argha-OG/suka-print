@@ -44,15 +44,15 @@ const Footer = () => {
                             {settings?.footerDescription || "Premium printing solutions for businesses and individuals. High-quality materials, fast delivery, and exceptional service."}
                         </p>
                         <div className="flex gap-4">
-                            <Button size="icon" variant="ghost" className="bg-white/10 hover:bg-primary-blue text-white rounded-full" asChild>
-                                <a href={settings?.socialLinks?.facebook || "#"}><Facebook size={18} /></a>
-                            </Button>
-                            <Button size="icon" variant="ghost" className="bg-white/10 hover:bg-primary-magenta text-white rounded-full" asChild>
-                                <a href={settings?.socialLinks?.instagram || "#"}><Instagram size={18} /></a>
-                            </Button>
-                            <Button size="icon" variant="ghost" className="bg-white/10 hover:bg-primary-blue text-white rounded-full" asChild>
-                                <a href={settings?.socialLinks?.twitter || "#"}><Twitter size={18} /></a>
-                            </Button>
+                            <a href={settings?.socialLinks?.facebook || "#"} className="w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-primary-blue text-white rounded-full transition-all border border-white/10">
+                                <Facebook size={18} />
+                            </a>
+                            <a href={settings?.socialLinks?.instagram || "#"} className="w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-primary-magenta text-white rounded-full transition-all border border-white/10">
+                                <Instagram size={18} />
+                            </a>
+                            <a href={settings?.socialLinks?.twitter || "#"} className="w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-primary-blue text-white rounded-full transition-all border border-white/10">
+                                <Twitter size={18} />
+                            </a>
                         </div>
                     </div>
 
