@@ -5,39 +5,67 @@ import { notFound } from 'next/navigation';
 
 export async function generateMetadata({ params }) {
     const { id } = await params;
-    const product = products.find(p => p._id === id);
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    
+    try {
+        const res = await fetch(`${apiUrl}/products/${id}`, { cache: 'no-store' });
+        if (!res.ok) throw new Error('Product not found');
+        const product = await res.json();
 
-    if (!product) return { title: 'Product Not Found' };
-
-    return {
-        title: product.title,
-        description: product.description || `Premium quality ${product.title} printing services in Malaysia. High-quality materials and fast delivery.`,
-        openGraph: {
-            title: `${product.title} | Suka Print`,
-            description: product.description,
-            images: [product.image],
-            type: 'article',
-        },
-        twitter: {
-            card: 'summary_large_image',
+        return {
             title: product.title,
-            description: product.description,
-            images: [product.image],
-        }
-    };
+            description: product.description || `Premium quality ${product.title} printing services in Malaysia. High-quality materials and fast delivery.`,
+            openGraph: {
+                title: `${product.title} | Suka Print`,
+                description: product.description,
+                images: [product.image],
+                type: 'article',
+            },
+        };
+    } catch (error) {
+        // Fallback to hardcoded for legacy IDs if possible
+        const legacyProduct = products.find(p => p._id === id);
+        if (legacyProduct) return { title: legacyProduct.title };
+        return { title: 'Product Not Found' };
+    }
 }
 
 const Page = async ({ params }) => {
     const { id } = await params;
-    const product = products.find(p => p._id === id);
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    
+    let product = null;
+    let relatedProducts = [];
+
+    try {
+        const res = await fetch(`${apiUrl}/products/${id}`, { cache: 'no-store' });
+        if (res.ok) {
+            product = await res.json();
+            
+            // Fetch related products by category
+            const allRes = await fetch(`${apiUrl}/products`, { cache: 'no-store' });
+            const allProducts = await allRes.json();
+            relatedProducts = allProducts
+                .filter(p => p.category === product.category && p._id !== product._id)
+                .slice(0, 4);
+        }
+    } catch (error) {
+        console.error("API Fetch Error:", error);
+    }
+
+    // Fallback to hardcoded if API fails or ID is numeric
+    if (!product) {
+        product = products.find(p => p._id === id);
+        if (product) {
+            relatedProducts = products
+                .filter(p => p.category === product.category && p._id !== product._id)
+                .slice(0, 4);
+        }
+    }
 
     if (!product) {
         notFound();
     }
-
-    const relatedProducts = products
-        .filter(p => p.category === product.category && p._id !== product._id)
-        .slice(0, 4);
 
     const jsonLd = {
         '@context': 'https://schema.org',
@@ -55,12 +83,6 @@ const Page = async ({ params }) => {
             priceCurrency: 'MYR',
             price: product.price,
             availability: 'https://schema.org/InStock',
-            priceValidUntil: '2027-01-01',
-        },
-        aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: '4.9',
-            reviewCount: '128',
         },
     };
 
