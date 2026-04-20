@@ -40,7 +40,9 @@ const ServiceIcons = ({ videoUrl }) => {
                     playlist: videoId,
                     playsinline: 1,
                     rel: 0,
-                    vq: 'hd1080', // Attempt to force 1080p
+                    vq: 'hd1080',
+                    enablejsapi: 1,
+                    origin: window.location.origin,
                     modestbranding: 1
                 },
                 events: {
