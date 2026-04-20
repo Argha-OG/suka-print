@@ -1,4 +1,5 @@
-import { getBaseURL } from '@/lib/api';
+import dbConnect from '@/lib/dbConnect';
+import Product from '@/lib/models/Product';
 
 const SITE_URL = 'https://www.sukaprint.com';
 
@@ -27,24 +28,24 @@ export default async function sitemap() {
 
   // Dynamic product routes
   try {
-    const res = await fetch(`${getBaseURL()}/products`);
-    const products = await res.json();
+    await dbConnect();
+    // Retrieve only necessary fields for sitemap
+    const products = await Product.find({}, '_id updatedAt').lean();
 
-    if (!Array.isArray(products)) {
-      console.warn('Sitemap: Received non-array response from API');
+    if (!products || products.length === 0) {
       return routes;
     }
 
     const productRoutes = products.map((product) => ({
       url: `${SITE_URL}/products/${product._id}`,
-      lastModified: new Date().toISOString(),
+      lastModified: (product.updatedAt || new Date()).toISOString(),
       changeFrequency: 'weekly',
       priority: 0.6,
     }));
 
     return [...routes, ...productRoutes];
   } catch (error) {
-    console.error('Sitemap fetch error:', error);
+    console.error('Sitemap generation error:', error);
     return routes;
   }
 }
