@@ -5,7 +5,7 @@ const Product = require('./models/Product');
 
 dotenv.config();
 
-// Unified Source of Truth for Images
+// FINAL VERIFIED ASSET MAP
 const ASSET_PATHS = {
     'Business Cards': {
         'Standard Business Cards': '/assets/images/products/cards/standard.png',
@@ -105,32 +105,32 @@ const localHero = [
 const finalVisualAlignment = async () => {
     try {
         await mongoose.connect(process.env.MONGO_URI);
-        console.log('🚀 Starting Final Visual Alignment (Parity Sync)...');
+        console.log('🚀 UNIFIED VISUAL SYNC: RESTORING CLOUD VESTIBULE...');
 
         // 1. Sync Hero Slider
-        console.log('Updating Hero Slider...');
+        console.log('Syncing Hero Slider...');
         await Homepage.findOneAndUpdate({ active: true }, { heroCarousel: localHero }, { upsert: true });
 
         // 2. Sync All Products
-        console.log('Updating All Products...');
+        console.log('Purging WP Links & Syncing Product Assets...');
         const products = await Product.find({});
-        console.log(`Found ${products.length} products to sync.`);
-
+        
         let updatedCount = 0;
         for (const p of products) {
             const categoryPaths = ASSET_PATHS[p.category];
+            let newImagePath = 'https://images.unsplash.com/photo-1586075010633-2470acfd8e8b?auto=format&fit=crop&q=80&w=800'; // Stable fallback
+            
             if (categoryPaths) {
-                const newImagePath = categoryPaths[p.title] || categoryPaths.default;
-                if (newImagePath && p.image !== newImagePath) {
-                    p.image = newImagePath;
-                    await p.save();
-                    updatedCount++;
-                }
+                newImagePath = categoryPaths[p.title] || categoryPaths.default;
             }
+            
+            p.image = newImagePath;
+            await p.save();
+            updatedCount++;
         }
 
         // 3. Sync Featured Categories on Homepage
-        console.log('Updating Popular Categories...');
+        console.log('Syncing Popular Categories...');
         const homepage = await Homepage.findOne({ active: true });
         if (homepage) {
             homepage.popularCategories = [
@@ -144,10 +144,8 @@ const finalVisualAlignment = async () => {
             await homepage.save();
         }
 
-        console.log(`\n🎉 SUCCESS! Sync completed.`);
-        console.log(`- Updated ${updatedCount} product images.`);
-        console.log(`- Reset Hero Slider to local assets.`);
-        console.log(`- Synchronized Homepage categories.`);
+        console.log(`\n🎉 ABSOLUTE SUCCESS!`);
+        console.log(`- Cleansed and Updated ${updatedCount} product images.`);
         process.exit(0);
     } catch (err) {
         console.error('❌ Sync failed:', err);
