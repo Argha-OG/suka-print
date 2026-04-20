@@ -15,6 +15,18 @@ const Testimonials = ({ customTestimonials }) => {
             feedback: "Kedai printing terbaik yang saya pernah guna! Design cantik, harga berpatutan, dan staff pun sangat membantu. Tempah kad kahwin saya pun dari sini!",
             avatar: "https://i.pravatar.cc/150?u=siti",
             rating: 5
+        },
+        {
+            name: "David Tan",
+            feedback: "Professional work for my restaurant's menus. The premium cards they recommended were also a huge hit. Highly recommended!",
+            avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80",
+            rating: 5
+        },
+        {
+            name: "Amira Zahari",
+            feedback: "Sangat cepat! Order banner pagi, petang dah siap. Kualiti gambar pun tajam tak pecah. Terima kasih Suka Print!",
+            avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80",
+            rating: 5
         }
     ];
 

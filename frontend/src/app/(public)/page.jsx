@@ -44,7 +44,6 @@ export default async function Home() {
         <div className="space-y-12 pb-12 px-4">
             <HeroSlider customSlides={heroSlides} />
             <ServiceIcons videoUrl={videoData?.videoUrl} />
-            {videoData && <VideoSection data={videoData} />}
             <PromoBanners customBanners={promoBanners} />
             <DealOfTheDay customDeal={dealData} />
             <PopularCategories customCategories={categories} />

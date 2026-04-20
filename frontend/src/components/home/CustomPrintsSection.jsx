@@ -6,23 +6,34 @@ import { Button } from '../ui/button';
 import Link from 'next/link';
 
 
-const defaultSliderImages = [
-    "https://sukaprint.com/wp-content/uploads/2025/06/WhatsApp-Image-2025-06-20-at-8.56.47-AM-4-768x768.jpeg",
-    "https://sukaprint.com/wp-content/uploads/2025/06/WhatsApp-Image-2025-06-20-at-8.56.47-AM-3-768x768.jpeg",
-    "https://sukaprint.com/wp-content/uploads/2025/06/WhatsApp-Image-2025-06-20-at-8.56.48-AM-1-768x576.jpeg",
-    "https://sukaprint.com/wp-content/uploads/2025/06/WhatsApp-Image-2025-06-20-at-8.56.48-AM-768x768.jpeg",
-    "https://sukaprint.com/wp-content/uploads/2025/06/WhatsApp-Image-2025-06-20-at-8.56.47-AM-2-768x768.jpeg"
-];
+import axios from 'axios';
+import { getBaseURL } from '@/lib/api';
+
 
 const CustomPrintsSection = ({ customData }) => {
     const [current, setCurrent] = useState(0);
+    const [portfolioImages, setPortfolioImages] = useState([]);
 
     const title = customData?.title || "Make Every Gift Unforgettable with Custom Prints.";
     const subtitle = customData?.subtitle || "Personalized Solutions";
     const description = customData?.description || "Looking for personalized gifts and high-quality printing services in Malaysia? We offer creative, customized solutions for personal celebrations, corporate events, and business branding.";
-    const sliderImages = customData?.image ? [customData.image] : defaultSliderImages;
     const buttonText = customData?.buttonText || "Start Your Project";
     const buttonLink = customData?.buttonLink || "/contact";
+
+    useEffect(() => {
+        const fetchPortfolio = async () => {
+            try {
+                const res = await axios.get(`${getBaseURL()}/portfolio`);
+                const images = res.data.map(item => item.image);
+                setPortfolioImages(images);
+            } catch (err) {
+                console.error("Failed to fetch portfolio for custom prints section", err);
+            }
+        };
+        fetchPortfolio();
+    }, []);
+
+    const sliderImages = portfolioImages.length > 0 ? portfolioImages : (customData?.image ? [customData.image] : []);
 
     useEffect(() => {
         if (sliderImages.length <= 1) return;

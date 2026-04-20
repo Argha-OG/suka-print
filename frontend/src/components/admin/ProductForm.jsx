@@ -44,10 +44,10 @@ const ProductForm = ({ id: propId }) => {
         category: data.category,
         stock: data.stock,
         image: null,
-        imageUrl: data.imagePath,
+        imageUrl: data.image,
       });
-      setPreview(data.imagePath);
-      if (data.imagePath?.startsWith("http") && !data.imagePath?.includes(getRawBaseURL())) {
+      setPreview(data.image);
+      if (data.image?.startsWith("http") && !data.image?.includes(getRawBaseURL())) {
         setImageSource("url");
       }
     } catch (error) {
@@ -73,14 +73,14 @@ const ProductForm = ({ id: propId }) => {
     setLoading(true);
 
     try {
-      let imagePath = imageSource === "file" ? formData.image : formData.imageUrl;
+      let image = imageSource === "file" ? formData.image : formData.imageUrl;
 
       // Upload image if it's a file object (new upload)
       if (imageSource === "file" && formData.image instanceof File) {
         const uploadData = new FormData();
         uploadData.append("image", formData.image);
         const { data } = await api.post("/upload", uploadData);
-        imagePath = `${getRawBaseURL()}${data}`;
+        image = `${getRawBaseURL()}${data}`;
       }
 
       const productData = {
@@ -89,7 +89,7 @@ const ProductForm = ({ id: propId }) => {
         price: Number(formData.price),
         category: formData.category,
         stock: Number(formData.stock),
-        imagePath: imagePath,
+        image: image,
       };
 
       if (isEditMode) {

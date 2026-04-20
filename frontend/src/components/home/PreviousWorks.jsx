@@ -2,42 +2,35 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, ZoomIn, X } from 'lucide-react';
-
-const previousWorks = [
-    {
-        id: 1,
-        title: "Custom Uniform Printing",
-        category: "Apparel",
-        image: "/assets/previous-works/WhatsApp Image 2026-04-11 at 8.22.54 PM (1).jpeg"
-    },
-    {
-        id: 2,
-        title: "Premium Gift Wrapping",
-        category: "Custom Gifts",
-        image: "/assets/previous-works/WhatsApp Image 2026-04-11 at 8.22.54 PM.jpeg"
-    },
-    {
-        id: 3,
-        title: "Corporate Branding",
-        category: "Business",
-        image: "/assets/previous-works/WhatsApp Image 2026-04-11 at 8.22.55 PM (1).jpeg"
-    },
-    {
-        id: 4,
-        title: "Event Souvenirs",
-        category: "Events",
-        image: "/assets/previous-works/WhatsApp Image 2026-04-11 at 8.22.55 PM.jpeg"
-    },
-    {
-        id: 5,
-        title: "Custom Merchandise",
-        category: "Merchandise",
-        image: "/assets/previous-works/WhatsApp Image 2026-04-12 at 7.51.17 AM.jpeg"
-    }
-];
+import axios from 'axios';
+import { getBaseURL } from '@/lib/api';
 
 const PreviousWorks = () => {
     const [selectedWork, setSelectedWork] = useState(null);
+    const [previousWorks, setPreviousWorks] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    React.useEffect(() => {
+        const fetchPortfolio = async () => {
+            try {
+                const res = await axios.get(`${getBaseURL()}/portfolio`);
+                setPreviousWorks(res.data);
+            } catch (err) {
+                console.error("Failed to fetch portfolio", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchPortfolio();
+    }, []);
+
+    if (loading) return (
+        <div className="py-20 flex justify-center">
+            <div className="w-10 h-10 border-4 border-primary-magenta border-t-transparent rounded-full animate-spin"></div>
+        </div>
+    );
+
+    if (previousWorks.length === 0) return null;
 
     return (
         <section className="mb-20 relative">
@@ -75,7 +68,7 @@ const PreviousWorks = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
                 {previousWorks.map((work, index) => (
                     <motion.div
-                        key={work.id}
+                        key={work._id}
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         transition={{ delay: index * 0.1 }}

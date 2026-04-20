@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../ui/button';
-import { ArrowRight, ArrowLeft, Menu, Plug, Notebook, Utensils, Coffee, Pen, PenTool } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Menu, Plug, Notebook, Utensils, Coffee, Pen, PenTool, Truck, CreditCard } from 'lucide-react';
 
 const defaultSlides = [
     {
@@ -67,12 +67,12 @@ const PREDEFINED_GRADIENTS = [
 ];
 
 const categories = [
-    { name: "Travel Adapter", icon: <Plug size={18} /> },
-    { name: "Notepad", icon: <Notebook size={18} /> },
-    { name: "Kitchenware", icon: <Utensils size={18} /> },
-    { name: "Vacuum Flask", icon: <Coffee size={18} /> },
-    { name: "Plastic pen", icon: <Pen size={18} /> },
-    { name: "Metal Pen", icon: <PenTool size={18} /> }
+    { name: "Business Cards", icon: <CreditCard size={18} /> },
+    { name: "Banners & Posters", icon: <Truck size={18} /> },
+    { name: "Custom Packaging", icon: <Notebook size={18} /> },
+    { name: "Stickers & Labels", icon: <Pen size={18} /> },
+    { name: "Professional Booklets", icon: <Notebook size={18} /> },
+    { name: "Signage & Indoor", icon: <Truck size={18} /> }
 ];
 
 const HeroSlider = ({ customSlides }) => {

@@ -16,24 +16,33 @@ const allowedOrigins = [
     'https://www.sukaprint.com',
     'https://sukaprint.com',
     'http://localhost:3000',
-    'http://localhost:3001'
+    'http://localhost:3001',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:3001',
+    'http://192.168.56.1:3000'
 ];
 
 app.use(cors({
     origin: function (origin, callback) {
-        // allow requests with no origin (like mobile apps or curl requests)
+        // Allow requests with no origin (like mobile apps or curl)
         if (!origin) return callback(null, true);
-        if (allowedOrigins.indexOf(origin) === -1) {
-            const msg = 'The CORS policy for this site does not ' +
-                'allow access from the specified Origin.';
-            return callback(new Error(msg), false);
+
+        const isAllowedOrigin = allowedOrigins.includes(origin);
+        const isLocalhost = origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1');
+        const isPrivateIP = origin.startsWith('http://192.168.') || origin.startsWith('http://10.') || origin.startsWith('http://172.');
+
+        if (isAllowedOrigin || isLocalhost || isPrivateIP) {
+            callback(null, true);
+        } else {
+            console.error(`Blocked by CORS: Origin ${origin} not in allowed list.`);
+            callback(new Error('Not allowed by CORS'));
         }
-        return callback(null, true);
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'Accept']
 }));
+
 
 // Database Connection
 const connectDB = async () => {
@@ -70,6 +79,7 @@ app.use('/api/offers', offerRoutes);
 app.use('/api/homepage', homepageRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/settings', settingsRoutes);
+app.use('/api/portfolio', require('./routes/portfolioRoutes'));
 
 // Make uploads folder static
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));

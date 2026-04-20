@@ -60,7 +60,7 @@ const AdminProducts = () => {
                             <tr key={product._id} className="hover:bg-gray-50">
                                 <td className="p-4">
                                     <div className="w-12 h-12 bg-gray-100 rounded-md overflow-hidden">
-                                        <img src={product.imagePath || 'placeholder.jpg'} alt="" className="w-full h-full object-cover" />
+                                        <img src={product.image || 'placeholder.jpg'} alt="" className="w-full h-full object-cover" />
                                     </div>
                                 </td>
                                 <td className="p-4 font-medium">{product.title}</td>

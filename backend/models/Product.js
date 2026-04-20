@@ -6,7 +6,7 @@ const productSchema = new mongoose.Schema({
     price: { type: Number, required: true },
     discountPrice: { type: Number },
     category: { type: String, required: true }, // e.g., 'business-cards', 'banners'
-    imagePath: { type: String, required: true },
+    image: { type: String, required: true },
     isBestSeller: { type: Boolean, default: false },
     isTopRated: { type: Boolean, default: false },
     stock: { type: Number, default: 0 },

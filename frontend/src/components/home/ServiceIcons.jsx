@@ -1,7 +1,99 @@
+"use client";
 import React from 'react';
-import { Truck, RotateCcw, Headphones, CreditCard } from 'lucide-react';
+import { Truck, RotateCcw, Headphones, CreditCard, Volume2, VolumeX } from 'lucide-react';
 
 const ServiceIcons = ({ videoUrl }) => {
+    const [isMuted, setIsMuted] = React.useState(true);
+    const [player, setPlayer] = React.useState(null);
+    const containerRef = React.useRef(null);
+
+    // Load YouTube API and setup player
+    React.useEffect(() => {
+        const videoId = videoUrl?.split('embed/')[1]?.split('?')[0];
+        if (!videoId) return;
+
+        // Load API script if not exists
+        if (!window.YT) {
+            const tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        }
+
+        const onPlayerReady = (event) => {
+            setPlayer(event.target);
+            event.target.mute();
+            if (event.target.setPlaybackQuality) {
+                event.target.setPlaybackQuality('hd1080');
+            }
+            event.target.playVideo();
+        };
+
+        const createPlayer = () => {
+            new window.YT.Player('youtube-player', {
+                videoId: videoId,
+                playerVars: {
+                    autoplay: 1,
+                    mute: 1,
+                    controls: 0,
+                    loop: 1,
+                    playlist: videoId,
+                    playsinline: 1,
+                    rel: 0,
+                    vq: 'hd1080', // Attempt to force 1080p
+                    modestbranding: 1
+                },
+                events: {
+                    onReady: onPlayerReady
+                }
+            });
+        };
+
+        if (window.YT && window.YT.Player) {
+            createPlayer();
+        } else {
+            window.onYouTubeIframeAPIReady = createPlayer;
+        }
+
+        const handleInteraction = () => {
+            setIsMuted(false);
+            if (window.YT && player) {
+                player.unMute();
+                if (player.setPlaybackQuality) {
+                    player.setPlaybackQuality('hd1080');
+                }
+                player.playVideo();
+            }
+            window.removeEventListener('click', handleInteraction);
+            window.removeEventListener('scroll', handleInteraction);
+            window.removeEventListener('touchstart', handleInteraction);
+        };
+
+        window.addEventListener('click', handleInteraction);
+        window.addEventListener('scroll', handleInteraction);
+        window.addEventListener('touchstart', handleInteraction);
+
+        return () => {
+            window.removeEventListener('click', handleInteraction);
+            window.removeEventListener('scroll', handleInteraction);
+            window.removeEventListener('touchstart', handleInteraction);
+        };
+    }, [videoUrl, player]);
+
+    // Sync isMuted state with YouTube Player
+    React.useEffect(() => {
+        if (player && player.unMute) {
+            if (isMuted) {
+                player.mute();
+            } else {
+                player.unMute();
+                if (player.setPlaybackQuality) {
+                    player.setPlaybackQuality('hd1080');
+                }
+            }
+        }
+    }, [isMuted, player]);
+
     const services = [
         {
             icon: <Truck size={32} />,
@@ -51,18 +143,30 @@ const ServiceIcons = ({ videoUrl }) => {
                 </div>
 
                 {/* Right Side: Video Section */}
-                <div className="w-full rounded-2xl overflow-hidden shadow-2xl border-4 border-white/50 h-64 md:h-[400px] flex items-center bg-black">
-                    <video
-                        src={videoUrl || "https://sukaprint.com/wp-content/uploads/2025/02/WhatsApp-Video-2025-02-19-at-1.58.34-PM.mp4"}
-                        controls
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        className="w-full h-full object-cover"
+                <div className="w-full rounded-2xl overflow-hidden shadow-2xl border-4 border-white/50 h-64 md:h-[400px] flex items-center bg-black relative group">
+                    <div id="youtube-player" className="w-[115%] h-[115%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+
+
+
+                    {/* Sound Toggle Overlay */}
+                    <button 
+                        onClick={() => setIsMuted(!isMuted)}
+                        className="absolute bottom-4 right-4 z-20 p-3 bg-black/50 hover:bg-black/70 backdrop-blur-md rounded-full text-white transition-all transform hover:scale-110 border border-white/20 flex items-center gap-2"
                     >
-                        Your browser does not support the video tag.
-                    </video>
+                        {isMuted ? (
+                            <>
+                                <VolumeX size={20} />
+                                <span className="text-[10px] font-bold uppercase tracking-widest hidden sm:block">Click for Music</span>
+                            </>
+                        ) : (
+                            <Volume2 size={20} />
+                        )}
+                    </button>
+                    
+                    {/* Visual Overlay if muted */}
+                    {isMuted && (
+                        <div className="absolute inset-0 bg-black/10 pointer-events-none group-hover:bg-transparent transition-all"></div>
+                    )}
                 </div>
             </div>
         </section>
