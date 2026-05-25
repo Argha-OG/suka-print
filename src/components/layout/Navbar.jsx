@@ -13,6 +13,7 @@ const logoDefault = '/assets/suka.png';
 import { products } from '@/data/products';
 const shirtCatalog = '/assets/Shirt-catalogue.pdf';
 const secondCatalog = '/assets/second-catalog.pdf';
+const productsPricing = '/assets/Products-Pricing.pdf';
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -209,6 +210,7 @@ const Navbar = () => {
                                 <div className="absolute top-full left-0 w-48 bg-white shadow-xl rounded-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border border-gray-100 transform translate-y-2 group-hover:translate-y-0">
                                     <a href={shirtCatalog} target="_blank" rel="noopener noreferrer" className="block px-4 py-3 hover:bg-gray-50 text-gray-700 hover:text-primary-blue text-sm">Shirt Catalogue</a>
                                     <a href={secondCatalog} target="_blank" rel="noopener noreferrer" className="block px-4 py-3 hover:bg-gray-50 text-gray-700 hover:text-primary-blue text-sm">Gift Catalogue</a>
+                                    <a href={productsPricing} target="_blank" rel="noopener noreferrer" className="block px-4 py-3 hover:bg-gray-50 text-gray-700 hover:text-primary-blue text-sm">Products Pricing</a>
                                 </div>
                             </li>
                             <li><Link href="/services" className="hover:text-primary-blue cursor-pointer">Services</Link></li>
@@ -230,6 +232,9 @@ const Navbar = () => {
                         <Input placeholder="Search..." className="w-full" />
                         <Link href="/" className="py-2 border-b">Home</Link>
                         <Link href="/products" className="py-2 border-b">Shop All</Link>
+                        <a href={shirtCatalog} target="_blank" rel="noopener noreferrer" className="py-2 border-b text-gray-700">Shirt Catalogue</a>
+                        <a href={secondCatalog} target="_blank" rel="noopener noreferrer" className="py-2 border-b text-gray-700">Gift Catalogue</a>
+                        <a href={productsPricing} target="_blank" rel="noopener noreferrer" className="py-2 border-b text-gray-700">Products Pricing</a>
                         <Link href="/contact" className="py-2">Contact</Link>
                     </div>
                 </div>

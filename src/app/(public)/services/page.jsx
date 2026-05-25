@@ -1,5 +1,5 @@
 import React from 'react';
-import { Printer, FileText, Image, Layers, Package, PenTool } from 'lucide-react';
+import { Printer, FileText, Image, Layers, Package, PenTool, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
@@ -36,6 +36,12 @@ const Services = () => {
             icon: <Layers size={40} />,
             title: "Offset Printing",
             description: "Cost-effective high-volume printing for magazines, booklets, and catalogs."
+        },
+        {
+            icon: <Zap size={40} />,
+            title: "Laser Engraving",
+            description: "Precision laser engraving on metals, wood, and acrylic. Starting from RM 1.00 per unit.",
+            image: "/assets/images/engrave-real.jpeg"
         }
     ];
 
@@ -48,15 +54,32 @@ const Services = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
                 {serviceList.map((service, index) => (
-                    <div key={index} className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all group">
-                        <div className="w-16 h-16 bg-blue-50 text-primary-blue rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary-magenta group-hover:text-white transition-colors">
-                            {service.icon}
+                    <div key={index} className="bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition-all group overflow-hidden flex flex-col">
+                        {/* Service image (only shown when available) */}
+                        {service.image && (
+                            <div className="relative h-48 overflow-hidden">
+                                <img
+                                    src={service.image}
+                                    alt={service.title}
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                                <span className="absolute bottom-3 left-4 text-white text-xs font-bold uppercase tracking-widest opacity-80">
+                                    Sample Preview
+                                </span>
+                            </div>
+                        )}
+
+                        <div className="p-8 flex flex-col flex-1">
+                            <div className="w-16 h-16 bg-blue-50 text-primary-blue rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary-magenta group-hover:text-white transition-colors">
+                                {service.icon}
+                            </div>
+                            <h3 className="text-xl font-bold mb-3">{service.title}</h3>
+                            <p className="text-gray-500 leading-relaxed mb-6 flex-1">{service.description}</p>
+                            <Link href="/products" className="text-sm font-bold text-primary-blue uppercase tracking-wide group-hover:text-primary-magenta">
+                                Learn More &rarr;
+                            </Link>
                         </div>
-                        <h3 className="text-xl font-bold mb-3">{service.title}</h3>
-                        <p className="text-gray-500 leading-relaxed mb-6">{service.description}</p>
-                        <Link href="/products" className="text-sm font-bold text-primary-blue uppercase tracking-wide group-hover:text-primary-magenta">
-                            Learn More &rarr;
-                        </Link>
                     </div>
                 ))}
             </div>

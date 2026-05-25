@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingBag, ChevronRight, Star } from 'lucide-react';
+import { ShoppingBag, ChevronRight, Star, Zap } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 
@@ -35,10 +35,15 @@ const ListingCard = ({ product }) => {
             className="group relative bg-white/80 backdrop-blur-xl rounded-[2rem] p-4 border border-white/50 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col h-full"
         >
             {/* Floating Badge */}
-            <div className="absolute top-6 left-6 z-10">
-                <span className="px-3 py-1 bg-black/5 backdrop-blur-md rounded-full text-[10px] font-bold uppercase tracking-widest text-gray-600 border border-white/20">
+            <div className="absolute top-6 left-6 z-10 flex flex-col gap-2">
+                <span className="px-3 py-1 bg-black/5 backdrop-blur-md rounded-full text-[10px] font-bold uppercase tracking-widest text-gray-600 border border-white/20 w-fit">
                     {product.category}
                 </span>
+                {['Vacuum Flask', 'Metal Pen', 'Kitchenware', 'Gifts', 'Travel Adapter'].includes(product.category) && (
+                    <span className="px-3 py-1 bg-orange-500 text-white rounded-full text-[10px] font-bold shadow-md flex items-center gap-1 w-fit">
+                        <Zap size={10} /> Engravable from RM 1.00
+                    </span>
+                )}
             </div>
 
             {/* Discount Badge */}

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Minus, Plus, ShoppingCart, MessageCircle, Star } from 'lucide-react';
+import { Minus, Plus, ShoppingCart, MessageCircle, Star, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/context/CartContext';
 import ListingCard from '@/components/products/ListingCard';
@@ -88,6 +88,18 @@ const ProductClient = ({ product, relatedProducts }) => {
                     <p className="text-gray-600 leading-relaxed">
                         {product.description || `Premium quality ${product.title.toLowerCase()} tailored to your specific needs. Order now for fast delivery and professional finish.`}
                     </p>
+
+                    {['Vacuum Flask', 'Metal Pen', 'Kitchenware', 'Gifts', 'Travel Adapter'].includes(product.category) && (
+                        <div className="bg-orange-50 border border-orange-100 p-4 rounded-xl flex items-start gap-4 shadow-sm">
+                            <span className="bg-orange-100 text-orange-600 p-2 rounded-lg shrink-0 mt-1">
+                                <Zap size={20} />
+                            </span>
+                            <div className="text-sm">
+                                <p className="font-bold text-orange-900 text-base mb-1">Custom Laser Engraving Available</p>
+                                <p className="text-orange-700 leading-relaxed">Personalize this item with your logo or name. Laser engraving service starts from <strong className="font-extrabold bg-orange-200 px-1 rounded">RM 1.00</strong> per unit.</p>
+                            </div>
+                        </div>
+                    )}
 
                     <div className="flex items-center gap-6">
                         <div className="flex items-center bg-white border border-gray-300 rounded-lg overflow-hidden">
