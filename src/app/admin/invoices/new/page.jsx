@@ -259,7 +259,7 @@ const NewInvoice = () => {
           <div className="flex justify-between items-start">
             <div className="flex flex-col items-center gap-1">
               <img
-                src="/assets/suka.png"
+                src="https://res.cloudinary.com/dteaoozsi/image/upload/v1781988539/sukaprint/suka_zaqezu.png"
                 alt="Suka Print Logo"
                 className="h-32 w-40 object-contain"
               />

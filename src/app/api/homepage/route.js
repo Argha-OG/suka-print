@@ -3,6 +3,8 @@ import dbConnect from '@/lib/dbConnect';
 import Homepage from '@/lib/models/Homepage';
 import { verifyAdmin } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 // @desc    Fetch homepage configuration
 // @route   GET /api/homepage
 export async function GET() {

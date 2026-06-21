@@ -3,6 +3,8 @@ import dbConnect from '@/lib/dbConnect';
 import Portfolio from '@/lib/models/Portfolio';
 import { verifyAdmin } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 // @desc    Get all portfolio items
 // @route   GET /api/portfolio
 export async function GET() {

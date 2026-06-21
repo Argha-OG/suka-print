@@ -3,6 +3,8 @@ import dbConnect from '@/lib/dbConnect';
 import Product from '@/lib/models/Product';
 import { verifyAdmin } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 // @desc    Fetch all products with optional category filter
 // @route   GET /api/products
 export async function GET(req) {

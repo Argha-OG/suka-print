@@ -24,7 +24,7 @@ export const metadata = {
     siteName: 'Suka Print',
     images: [
       {
-        url: '/assets/suka.png',
+        url: 'https://res.cloudinary.com/dteaoozsi/image/upload/v1781988539/sukaprint/suka_zaqezu.png',
         width: 800,
         height: 600,
         alt: 'Suka Print Logo',
@@ -37,7 +37,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Suka Print | Premium Printing Services Malaysia',
     description: 'Premier printing solutions in Malaysia. Business cards, banners, and more.',
-    images: ['/assets/suka.png'],
+    images: ['https://res.cloudinary.com/dteaoozsi/image/upload/v1781988539/sukaprint/suka_zaqezu.png'],
   },
   robots: {
     index: true,
@@ -58,7 +58,7 @@ export default function RootLayout({ children }) {
     '@type': 'Organization',
     name: 'Suka Print',
     url: 'https://www.sukaprint.com',
-    logo: 'https://www.sukaprint.com/assets/suka.png',
+    logo: 'https://res.cloudinary.com/dteaoozsi/image/upload/v1781988539/sukaprint/suka_zaqezu.png',
     sameAs: [
       'https://www.facebook.com/sukaprint',
       'https://www.instagram.com/sukaprint',

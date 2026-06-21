@@ -9,7 +9,7 @@ import { Input } from '../ui/input';
 import { cn } from '@/lib/utils';
 import { useCart } from '@/context/CartContext';
 import { getBaseURL } from '@/lib/api';
-const logoDefault = '/assets/suka.png';
+const logoDefault = 'https://res.cloudinary.com/dteaoozsi/image/upload/v1781988539/sukaprint/suka_zaqezu.png';
 import { products } from '@/data/products';
 const shirtCatalog = '/assets/Shirt-catalogue.pdf';
 const secondCatalog = '/assets/second-catalog.pdf';

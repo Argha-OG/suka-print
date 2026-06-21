@@ -41,7 +41,7 @@ const Services = () => {
             icon: <Zap size={40} />,
             title: "Laser Engraving",
             description: "Precision laser engraving on metals, wood, and acrylic. Starting from RM 1.00 per unit.",
-            image: "/assets/images/engrave-real.jpeg"
+            image: "https://res.cloudinary.com/dteaoozsi/image/upload/v1781988458/sukaprint/engrave-real_ce7vfy.jpg"
         }
     ];
 

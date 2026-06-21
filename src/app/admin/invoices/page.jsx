@@ -303,7 +303,7 @@ const InvoiceTemplate = ({ invoice, invoiceRef }) => {
         <div className="p-10 bg-white" ref={invoiceRef}>
             <div className="flex justify-between items-start mb-12">
                     <div className="flex flex-col items-center gap-1">
-                        <img src="/assets/suka.png" alt="Suka Print Logo" className="h-32 w-40 object-contain" />
+                        <img src="https://res.cloudinary.com/dteaoozsi/image/upload/v1781988539/sukaprint/suka_zaqezu.png" alt="Suka Print Logo" className="h-32 w-40 object-contain" />
                         <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Creative Printing Solutions</p>
                     </div>
                     <div className="text-right">

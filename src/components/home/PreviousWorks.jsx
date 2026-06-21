@@ -76,9 +76,8 @@ const PreviousWorks = () => {
                         className="group relative aspect-[4/5] rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer"
                         onClick={() => setSelectedWork(work)}
                     >
-                        {/* Image */}
                         <img 
-                            src={work.image.split('/').map(segment => encodeURIComponent(segment)).join('/')} 
+                            src={work.image.startsWith('http') ? work.image : work.image.split('/').map(segment => encodeURIComponent(segment)).join('/')} 
                             alt={work.title} 
                             onError={(e) => {
                                 e.target.onerror = null;
@@ -154,7 +153,7 @@ const PreviousWorks = () => {
 
                             <div className="relative w-full flex flex-col items-center pointer-events-auto">
                                 <img 
-                                    src={selectedWork.image.split('/').map(segment => encodeURIComponent(segment)).join('/')} 
+                                    src={selectedWork.image.startsWith('http') ? selectedWork.image : selectedWork.image.split('/').map(segment => encodeURIComponent(segment)).join('/')} 
                                     alt={selectedWork.title} 
                                     className="max-w-full max-h-[75vh] object-contain rounded-2xl shadow-2xl border border-white/10"
                                 />

@@ -3,6 +3,8 @@ import dbConnect from '@/lib/dbConnect';
 import Settings from '@/lib/models/Settings';
 import { verifyAdmin } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 // @desc    Get site settings
 // @route   GET /api/settings
 export async function GET() {
