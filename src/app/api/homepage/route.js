@@ -75,6 +75,16 @@ export async function PUT(req) {
         await dbConnect();
         const body = await req.json();
         
+        // Sanitize payload to prevent Mongoose CastErrors
+        if (body.dealOfTheDay) {
+            if (body.dealOfTheDay.product === '') {
+                body.dealOfTheDay.product = null;
+            }
+            if (body.dealOfTheDay.expiryTime === '') {
+                body.dealOfTheDay.expiryTime = null;
+            }
+        }
+        
         let homepage = await Homepage.findOne({ active: true });
         
         if (!homepage) {
@@ -96,6 +106,7 @@ export async function PUT(req) {
         const updatedHomepage = await homepage.save();
         return NextResponse.json({ message: 'Homepage updated successfully', homepage: updatedHomepage });
     } catch (error) {
+        console.error("PUT /api/homepage Error:", error);
         return NextResponse.json({ message: 'Server Error', error: error.message }, { status: 500 });
     }
 }

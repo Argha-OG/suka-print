@@ -6,9 +6,18 @@ const ServiceIcons = ({ videoUrl }) => {
     const [player, setPlayer] = React.useState(null);
     const containerRef = React.useRef(null);
 
+    // Helper to extract YouTube video ID from various URL formats
+    const extractVideoId = (url) => {
+        if (!url) return null;
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : null;
+    };
+    
+    const videoId = extractVideoId(videoUrl);
+
     // Load YouTube API and setup player
     React.useEffect(() => {
-        const videoId = videoUrl?.split('embed/')[1]?.split('?')[0];
         if (!videoId) return;
 
         let playerInstance = null;
@@ -41,7 +50,7 @@ const ServiceIcons = ({ videoUrl }) => {
                         }
                         event.target.playVideo();
                     },
-                    onError: (e) => console.error("YouTube Player Error:", e)
+                    onError: (e) => console.error("YouTube Player Error Code:", e?.data, "Event:", e)
                 }
             });
         };
@@ -60,7 +69,7 @@ const ServiceIcons = ({ videoUrl }) => {
         return () => {
             if (playerInstance && playerInstance.destroy) playerInstance.destroy();
         };
-    }, [videoUrl]); // Removed player from dependencies to prevent infinite loop
+    }, [videoId]); // Depend on videoId instead of videoUrl
 
 
     const services = [
@@ -115,7 +124,7 @@ const ServiceIcons = ({ videoUrl }) => {
                 <div 
                     className="w-full rounded-2xl overflow-hidden shadow-2xl border-4 border-white/50 h-64 md:h-[400px] flex items-center bg-black relative group"
                     style={{
-                        backgroundImage: `url(https://img.youtube.com/vi/${videoUrl?.split('embed/')[1]?.split('?')[0]}/maxresdefault.jpg)`,
+                        backgroundImage: videoId ? `url(https://img.youtube.com/vi/${videoId}/maxresdefault.jpg)` : 'none',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center'
                     }}
